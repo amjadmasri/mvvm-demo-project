@@ -20,7 +20,9 @@ public class MvvmApp extends Application implements HasAndroidInjector {
     public void onCreate() {
         super.onCreate();
 
-        DaggerAppComponent.create()
+        DaggerAppComponent.builder()
+                .application(this)
+                .build()
                 .inject(this);
 
     }
