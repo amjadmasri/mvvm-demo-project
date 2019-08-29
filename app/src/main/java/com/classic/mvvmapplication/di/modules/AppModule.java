@@ -1,23 +1,27 @@
 package com.classic.mvvmapplication.di.modules;
 
 
+import android.app.Application;
 import android.content.Context;
 
 import androidx.room.Room;
 
 import com.classic.mvvmapplication.data.ApiService;
 import com.classic.mvvmapplication.data.AppDatabase;
+import com.classic.mvvmapplication.data.prefs.AppPreferencesHelper;
+import com.classic.mvvmapplication.data.prefs.PreferencesHelper;
 import com.classic.mvvmapplication.di.interfaces.ApiKeyInfo;
 import com.classic.mvvmapplication.di.interfaces.ApiURlInfo;
 import com.classic.mvvmapplication.di.interfaces.DatabaseInfo;
 import com.classic.mvvmapplication.di.interfaces.DateFormatInfo;
+import com.classic.mvvmapplication.di.interfaces.PreferenceInfo;
+import com.classic.mvvmapplication.utilities.QueryParametersInterceptor;
 import com.classic.mvvmapplication.utilities.AppConstants;
 import com.classic.mvvmapplication.utilities.BooleanDeserializer;
 import com.classic.mvvmapplication.utilities.DateDeserializer;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 import javax.inject.Singleton;
@@ -56,6 +60,12 @@ public class AppModule {
         return AppConstants.API_BASE_URL;
     }
 
+    @Provides
+    @PreferenceInfo
+    String providePreferenceName() {
+        return AppConstants.PREF_NAME;
+    }
+
 
 
     @Provides
@@ -83,10 +93,11 @@ public class AppModule {
 
 
     @Provides
-    public OkHttpClient provideOkHttpClient(HttpLoggingInterceptor httpLoggingInterceptor){
+    public OkHttpClient provideOkHttpClient(HttpLoggingInterceptor httpLoggingInterceptor, QueryParametersInterceptor queryParametersInterceptor){
 
         return new OkHttpClient()
                 .newBuilder()
+                .addInterceptor(queryParametersInterceptor)
                 .addInterceptor(httpLoggingInterceptor)
                 .readTimeout(20, TimeUnit.SECONDS)
                 .connectTimeout(20,TimeUnit.SECONDS)
@@ -118,14 +129,24 @@ public class AppModule {
     @Singleton
     @Provides
     public BooleanDeserializer provideBooleanDeserializer(){
-        BooleanDeserializer booleanDeserializer = new BooleanDeserializer();
-        return booleanDeserializer;
+        return new BooleanDeserializer();
     }
     @Singleton
     @Provides
     public DateDeserializer provideDateDeserializer(){
-        DateDeserializer dateDeserializer = new DateDeserializer();
-        return dateDeserializer;
+        return new DateDeserializer();
+    }
+
+    @Provides
+    @Singleton
+    Context provideContext(Application application) {
+        return application;
+    }
+
+    @Provides
+    @Singleton
+    PreferencesHelper providePreferenceHelper(AppPreferencesHelper appPreferencesHelper){
+        return appPreferencesHelper;
     }
 
 }
