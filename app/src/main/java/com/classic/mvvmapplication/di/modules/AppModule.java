@@ -6,6 +6,7 @@ import android.content.Context;
 import androidx.room.Room;
 
 import com.classic.mvvmapplication.data.AppDatabase;
+import com.classic.mvvmapplication.di.interfaces.ApiKeyInfo;
 import com.classic.mvvmapplication.di.interfaces.DatabaseInfo;
 import com.classic.mvvmapplication.utilities.AppConstants;
 
@@ -22,6 +23,14 @@ public class AppModule {
     String provideDatabaseName() {
         return AppConstants.DB_NAME;
     }
+
+    @Provides
+    @ApiKeyInfo
+    String provideAPIKey() {
+        return AppConstants.API_KEY;
+    }
+
+
 
     @Provides
     @Singleton

@@ -4,12 +4,14 @@ import android.app.Activity;
 import android.app.Application;
 
 import com.classic.mvvmapplication.di.components.DaggerAppComponent;
+import com.classic.mvvmapplication.utilities.CrashReportingTree;
 
 import javax.inject.Inject;
 
 import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.HasAndroidInjector;
+import timber.log.Timber;
 
 public class MvvmApp extends Application implements HasAndroidInjector {
 
@@ -24,6 +26,12 @@ public class MvvmApp extends Application implements HasAndroidInjector {
                 .application(this)
                 .build()
                 .inject(this);
+
+        if (BuildConfig.DEBUG) {
+            Timber.plant(new Timber.DebugTree());
+        } else {
+            Timber.plant(new CrashReportingTree());
+        }
 
     }
 
