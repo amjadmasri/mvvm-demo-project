@@ -4,10 +4,19 @@ package com.classic.mvvmapplication.di.modules;
 import android.app.Application;
 import android.content.Context;
 
+import androidx.lifecycle.ViewModel;
 import androidx.room.Room;
 
+import com.classic.mvvmapplication.AppDataRepository;
 import com.classic.mvvmapplication.data.ApiService;
+import com.classic.mvvmapplication.data.AppMovieRepository;
+import com.classic.mvvmapplication.data.DataRepository;
+import com.classic.mvvmapplication.data.MovieRepository;
 import com.classic.mvvmapplication.data.AppDatabase;
+import com.classic.mvvmapplication.data.api.AppMovieApiHelper;
+import com.classic.mvvmapplication.data.api.MovieApiHelper;
+import com.classic.mvvmapplication.data.local.AppMovieDbHelper;
+import com.classic.mvvmapplication.data.local.MovieDbHelper;
 import com.classic.mvvmapplication.data.prefs.AppPreferencesHelper;
 import com.classic.mvvmapplication.data.prefs.PreferencesHelper;
 import com.classic.mvvmapplication.di.interfaces.ApiKeyInfo;
@@ -15,10 +24,12 @@ import com.classic.mvvmapplication.di.interfaces.ApiURlInfo;
 import com.classic.mvvmapplication.di.interfaces.DatabaseInfo;
 import com.classic.mvvmapplication.di.interfaces.DateFormatInfo;
 import com.classic.mvvmapplication.di.interfaces.PreferenceInfo;
+import com.classic.mvvmapplication.di.interfaces.ViewModelKey;
 import com.classic.mvvmapplication.utilities.QueryParametersInterceptor;
 import com.classic.mvvmapplication.utilities.AppConstants;
 import com.classic.mvvmapplication.utilities.BooleanDeserializer;
 import com.classic.mvvmapplication.utilities.DateDeserializer;
+import com.classic.mvvmapplication.viewModels.MovieViewModel;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -26,8 +37,10 @@ import java.util.concurrent.TimeUnit;
 
 import javax.inject.Singleton;
 
+import dagger.Binds;
 import dagger.Module;
 import dagger.Provides;
+import dagger.multibindings.IntoMap;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -149,6 +162,35 @@ public class AppModule {
     @Singleton
     PreferencesHelper providePreferenceHelper(AppPreferencesHelper appPreferencesHelper){
         return appPreferencesHelper;
+    }
+
+    @Provides
+    @Singleton
+    DataRepository provideDataManager(AppDataRepository appDataRepository) {
+        return appDataRepository;
+    }
+
+    @Provides
+    @Singleton
+    MovieDbHelper provideMovieDbHelper(AppMovieDbHelper appDbHelper) {
+        return appDbHelper;
+    }
+
+    @Provides
+    @Singleton
+    MovieApiHelper provideMovieApiHelper(AppMovieApiHelper appMovieApiHelper) {
+        return appMovieApiHelper;
+    }
+
+    @Singleton
+    @Provides
+    public GsonConverterFactory gsonConverterFactory(Gson gson){
+        return GsonConverterFactory.create(gson);
+    }
+
+    @Provides
+    public MovieRepository provideMovieRepository(AppMovieRepository appMovieRepository){
+        return appMovieRepository;
     }
 
 }

@@ -12,7 +12,7 @@ import retrofit2.Response;
 
 public interface MovieApiHelper {
 
-    Single<Response<List<MoviesListResponse>>> getRemotePopularMovieList();
+    Single<Response<MoviesListResponse>> getRemotePopularMovieList();
 
 
 }

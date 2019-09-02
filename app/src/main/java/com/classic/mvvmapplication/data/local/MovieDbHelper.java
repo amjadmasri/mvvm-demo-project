@@ -1,6 +1,7 @@
 package com.classic.mvvmapplication.data.local;
 
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.classic.mvvmapplication.data.models.local.Movie;
 

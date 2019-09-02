@@ -12,5 +12,5 @@ import retrofit2.http.GET;
 public interface ApiService {
 
     @GET("movie/popular")
-    Single<Response<List<MoviesListResponse>>> getPopularMovies();
+    Single<Response<MoviesListResponse>> getPopularMovies();
 }

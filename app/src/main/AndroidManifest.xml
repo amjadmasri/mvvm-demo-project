@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.classic.mvvmapplication">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".MvvmApp"
         android:allowBackup="true"

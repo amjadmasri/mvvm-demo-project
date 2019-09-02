@@ -24,7 +24,9 @@ public abstract class BaseActivity<T extends ViewDataBinding, V extends BaseView
 
     public abstract V getViewModel();
 
-    public abstract T getViewDataBinding();
+    public T getViewDataBinding(){
+        return mViewDataBinding;
+    };
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -33,7 +35,6 @@ public abstract class BaseActivity<T extends ViewDataBinding, V extends BaseView
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         performDependencyInjection();
         super.onCreate(savedInstanceState);
         performDataBinding();

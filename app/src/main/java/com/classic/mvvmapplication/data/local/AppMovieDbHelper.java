@@ -1,6 +1,7 @@
 package com.classic.mvvmapplication.data.local;
 
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.classic.mvvmapplication.data.AppDatabase;
 import com.classic.mvvmapplication.data.local.asyncTasks.movieAsyncTasks.InsertMovieAsyncTask;
@@ -10,6 +11,8 @@ import com.classic.mvvmapplication.data.models.local.Movie;
 import java.util.List;
 
 import javax.inject.Inject;
+
+import timber.log.Timber;
 
 public class AppMovieDbHelper implements MovieDbHelper {
 
@@ -26,6 +29,7 @@ public class AppMovieDbHelper implements MovieDbHelper {
 
     @Override
     public LiveData<List<Movie>> getMovieList() {
+        Timber.d("getMovieList: ");
         return appDatabase.getMovieDao().loadMovies();
     }
 

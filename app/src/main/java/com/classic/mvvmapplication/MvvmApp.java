@@ -3,6 +3,8 @@ package com.classic.mvvmapplication;
 import android.app.Activity;
 import android.app.Application;
 
+import androidx.multidex.MultiDexApplication;
+
 import com.classic.mvvmapplication.di.components.DaggerAppComponent;
 import com.classic.mvvmapplication.utilities.CrashReportingTree;
 
@@ -13,7 +15,7 @@ import dagger.android.DispatchingAndroidInjector;
 import dagger.android.HasAndroidInjector;
 import timber.log.Timber;
 
-public class MvvmApp extends Application implements HasAndroidInjector {
+public class MvvmApp extends MultiDexApplication implements HasAndroidInjector {
 
     @Inject
     DispatchingAndroidInjector<Object> dispatchingAndroidInjector;

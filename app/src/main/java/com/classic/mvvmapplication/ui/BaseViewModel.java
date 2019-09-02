@@ -2,20 +2,18 @@ package com.classic.mvvmapplication.ui;
 
 import androidx.lifecycle.ViewModel;
 
-import com.classic.mvvmapplication.data.DataManager;
+import com.classic.mvvmapplication.data.DataRepository;
 
-import io.reactivex.disposables.CompositeDisposable;
+public class BaseViewModel  extends ViewModel {
 
-public class BaseViewModel <N> extends ViewModel {
+    private final DataRepository dataRepository;
 
-    private final DataManager dataManager;
-
-    public BaseViewModel(DataManager dataManager) {
-        this.dataManager = dataManager;
+    public BaseViewModel(DataRepository dataRepository) {
+        this.dataRepository = dataRepository;
     }
 
 
-    public DataManager getDataManager() {
-        return dataManager;
+    public DataRepository getDataRepository() {
+        return dataRepository;
     }
 }
