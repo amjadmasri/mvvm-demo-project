@@ -16,15 +16,15 @@ import timber.log.Timber;
 
 public class AppMovieDbHelper implements MovieDbHelper {
 
-    private final InsertMovieAsyncTask insertMovieAsyncTask;
-    private final InsertMovieListAsyncTask insertMovieListAsyncTask;
+    //private final InsertMovieAsyncTask insertMovieAsyncTask;
+    //private final InsertMovieListAsyncTask insertMovieListAsyncTask;
     private AppDatabase appDatabase;
 
     @Inject
     public AppMovieDbHelper(AppDatabase appDatabase, InsertMovieAsyncTask insertMovieAsyncTask, InsertMovieListAsyncTask insertMovieListAsyncTask) {
         this.appDatabase = appDatabase;
-        this.insertMovieAsyncTask = insertMovieAsyncTask;
-        this.insertMovieListAsyncTask=insertMovieListAsyncTask;
+        //this.insertMovieAsyncTask = insertMovieAsyncTask;
+        //this.insertMovieListAsyncTask=insertMovieListAsyncTask;
     }
 
     @Override
@@ -35,11 +35,13 @@ public class AppMovieDbHelper implements MovieDbHelper {
 
     @Override
     public void insertMovie(Movie movie) {
+        InsertMovieAsyncTask insertMovieAsyncTask = new InsertMovieAsyncTask(appDatabase);
         insertMovieAsyncTask.execute(movie);
     }
 
     @Override
     public void insertMovieList(List<Movie> movieList) {
+        InsertMovieListAsyncTask insertMovieListAsyncTask = new InsertMovieListAsyncTask(appDatabase);
         insertMovieListAsyncTask.execute(movieList);
     }
 }

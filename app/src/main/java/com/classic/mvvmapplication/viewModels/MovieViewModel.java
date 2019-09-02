@@ -1,5 +1,7 @@
 package com.classic.mvvmapplication.viewModels;
 
+import android.view.View;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
@@ -60,5 +62,14 @@ public class MovieViewModel extends BaseViewModel {
 
     public LiveData<Resource<List<Movie>>> getMovieListLiveData() {
         return movieListLiveData;
+    }
+
+    public void onClick(View view){
+        Movie movie = new Movie();
+        movie.setId(540);
+        movie.setOriginalTitle("amjad test ");
+        movie.setPosterPath("/nYcaCNkB4EgVyvrXxxbklefDrGL.jpg");
+
+        movieRepository.insertMovie(movie);
     }
 }
