@@ -7,11 +7,13 @@ import com.classic.mvvmapplication.data.models.local.Movie;
 
 import java.util.List;
 
+import io.reactivex.Completable;
+
 public interface MovieDbHelper {
 
     LiveData<List<Movie>> getMovieList();
 
-    void insertMovie(Movie movie);
+    Completable insertMovie(Movie movie);
 
     void insertMovieList(List<Movie> movieList);
 }

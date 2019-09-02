@@ -12,6 +12,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import io.reactivex.Completable;
 import timber.log.Timber;
 
 public class AppMovieDbHelper implements MovieDbHelper {
@@ -34,9 +35,11 @@ public class AppMovieDbHelper implements MovieDbHelper {
     }
 
     @Override
-    public void insertMovie(Movie movie) {
+    public Completable insertMovie(Movie movie) {
+        /*
         InsertMovieAsyncTask insertMovieAsyncTask = new InsertMovieAsyncTask(appDatabase);
-        insertMovieAsyncTask.execute(movie);
+        insertMovieAsyncTask.execute(movie);*/
+        return appDatabase.getMovieDao().insert(movie);
     }
 
     @Override

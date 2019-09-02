@@ -10,11 +10,13 @@ import com.classic.mvvmapplication.data.models.local.Movie;
 
 import java.util.List;
 
+import io.reactivex.Completable;
+
 @Dao
 public interface MovieDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    long insert(Movie movie);
+    Completable insert(Movie movie);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     List<Long> insertList(List<Movie> movieList);

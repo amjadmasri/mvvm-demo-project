@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 import com.classic.mvvmapplication.BR;
 import com.classic.mvvmapplication.R;
@@ -22,13 +23,19 @@ import com.classic.mvvmapplication.utilities.ViewModelProviderFactory;
 import com.classic.mvvmapplication.viewModels.MovieViewModel;
 
 import java.util.List;
+import java.util.Random;
 import java.util.Timer;
 
 import javax.inject.Inject;
 
+import io.reactivex.Scheduler;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.observers.DisposableCompletableObserver;
+import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
-public class MainActivity extends BaseActivity<ActivityMainBinding, MovieViewModel> {
+public class MainActivity extends BaseActivity<ActivityMainBinding, MovieViewModel> implements View.OnClickListener {
 
     @Inject
     ViewModelProviderFactory viewModelProviderFactory;
@@ -38,6 +45,8 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MovieViewMod
     GridLayoutManager gridLayoutManager;
     @Inject
     LinearLayoutManager linearLayoutManager;
+    @Inject
+    CompositeDisposable disposable;
 
     private MovieViewModel movieViewModel;
     private ActivityMainBinding activityMainBinding;
@@ -75,5 +84,44 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MovieViewMod
                 movieAdapter.setData(movieList.data);
             }
         });
+
+        activityMainBinding.insertMovieButton.setOnClickListener(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+
+        disposable.clear();
+    }
+
+    @Override
+    public void onClick(View view){
+        Movie movie = new Movie();
+        movie.setId(new Random().nextInt());
+        movie.setOriginalTitle("amjad test "+new Random().nextInt());
+        movie.setPosterPath("/nYcaCNkB4EgVyvrXxxbklefDrGL.jpg");
+        Timber.d("amjad on click");
+
+        disposable.add(getViewModel().insertMovie(movie)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new DisposableCompletableObserver() {
+                    @Override
+                    public void onStart() {
+                        Timber.d("Started");
+                    }
+
+                    @Override
+                    public void onError(Throwable error) {
+                       Timber.d(error);
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        Timber.d("Done!");
+                    }
+                }));
     }
 }

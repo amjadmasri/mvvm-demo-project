@@ -18,6 +18,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import io.reactivex.Completable;
 import io.reactivex.Single;
 import retrofit2.Response;
 
@@ -64,12 +65,7 @@ public class MovieViewModel extends BaseViewModel {
         return movieListLiveData;
     }
 
-    public void onClick(View view){
-        Movie movie = new Movie();
-        movie.setId(540);
-        movie.setOriginalTitle("amjad test ");
-        movie.setPosterPath("/nYcaCNkB4EgVyvrXxxbklefDrGL.jpg");
-
-        movieRepository.insertMovie(movie);
-    }
+   public Completable insertMovie(Movie movie){
+        return movieRepository.insertMovie(movie);
+   }
 }

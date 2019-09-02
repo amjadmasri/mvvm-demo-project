@@ -41,6 +41,7 @@ import dagger.Binds;
 import dagger.Module;
 import dagger.Provides;
 import dagger.multibindings.IntoMap;
+import io.reactivex.disposables.CompositeDisposable;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -191,6 +192,11 @@ public class AppModule {
     @Provides
     public MovieRepository provideMovieRepository(AppMovieRepository appMovieRepository){
         return appMovieRepository;
+    }
+
+    @Provides
+    public CompositeDisposable provideCompositeDisposable(){
+        return new CompositeDisposable();
     }
 
 }

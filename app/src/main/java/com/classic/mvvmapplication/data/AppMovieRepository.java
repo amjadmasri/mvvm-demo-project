@@ -14,6 +14,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import io.reactivex.Completable;
 import io.reactivex.Single;
 import retrofit2.Response;
 
@@ -43,8 +44,8 @@ public class AppMovieRepository implements MovieRepository {
     }
 
     @Override
-    public void insertMovie(Movie movie) {
-        mDbHelper.insertMovie(movie);
+    public Completable insertMovie(Movie movie) {
+       return mDbHelper.insertMovie(movie);
     }
 
     @Override

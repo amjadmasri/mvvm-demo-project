@@ -8,6 +8,10 @@
         <variable
             name="viewModel"
             type="com.classic.mvvmapplication.viewModels.MovieViewModel" />
+
+        <variable
+            name="activity"
+            type="com.classic.mvvmapplication.ui.main.MainActivity" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -39,7 +43,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Button"
-            android:onClick="@{viewModel::onClick}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
