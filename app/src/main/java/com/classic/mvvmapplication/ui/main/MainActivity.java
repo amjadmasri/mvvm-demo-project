@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.classic.mvvmapplication.BR;
 import com.classic.mvvmapplication.R;
@@ -35,7 +36,7 @@ import io.reactivex.observers.DisposableCompletableObserver;
 import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
-public class MainActivity extends BaseActivity<ActivityMainBinding, MovieViewModel> implements View.OnClickListener {
+public class MainActivity extends BaseActivity<ActivityMainBinding, MovieViewModel> {
 
     @Inject
     ViewModelProviderFactory viewModelProviderFactory;
@@ -81,11 +82,25 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MovieViewMod
         getViewModel().getMovieListLiveData().observe(this, new Observer<Resource<List<Movie>>>() {
             @Override
             public void onChanged(Resource<List<Movie>> movieList) {
-                movieAdapter.setData(movieList.data);
+                if(movieList.status.equals(Resource.Status.LOADING)){
+                    Timber.d("loading ");
+                    setLoading(View.VISIBLE);
+                }
+                else if (movieList.status.equals(Resource.Status.SUCCESS)) {
+                    setLoading(View.GONE);
+                    movieAdapter.setData(movieList.data);
+                }
+                else if (movieList.status.equals(Resource.Status.ERROR)){
+                    setLoading(View.GONE);
+                    Toast.makeText(MainActivity.this, movieList.message, Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
-        activityMainBinding.insertMovieButton.setOnClickListener(this);
+    }
+
+    private void setLoading(int state){
+        activityMainBinding.addressLookingUp.setVisibility(state);
     }
 
     @Override
@@ -96,32 +111,4 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MovieViewMod
         disposable.clear();
     }
 
-    @Override
-    public void onClick(View view){
-        Movie movie = new Movie();
-        movie.setId(new Random().nextInt());
-        movie.setOriginalTitle("amjad test "+new Random().nextInt());
-        movie.setPosterPath("/nYcaCNkB4EgVyvrXxxbklefDrGL.jpg");
-        Timber.d("amjad on click");
-
-        disposable.add(getViewModel().insertMovie(movie)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new DisposableCompletableObserver() {
-                    @Override
-                    public void onStart() {
-                        Timber.d("Started");
-                    }
-
-                    @Override
-                    public void onError(Throwable error) {
-                       Timber.d(error);
-                    }
-
-                    @Override
-                    public void onComplete() {
-                        Timber.d("Done!");
-                    }
-                }));
-    }
 }

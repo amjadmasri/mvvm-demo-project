@@ -67,7 +67,7 @@ public abstract class NetworkBoundResource<ResultType, RequestType> {
                             saveResultAndReInit(response.body());
                         }
                         else{
-                            Timber.d("failed");
+                            result.setValue(Resource.<ResultType>error("unseccuss 403 ",null));
                         }
                     }
 
@@ -75,6 +75,7 @@ public abstract class NetworkBoundResource<ResultType, RequestType> {
                     public void onError(Throwable e) {
                         Timber.tag("amjadF");
                         Timber.d(e);
+                        result.setValue(Resource.<ResultType>error("failed ",null));
                     }
                 });
     }

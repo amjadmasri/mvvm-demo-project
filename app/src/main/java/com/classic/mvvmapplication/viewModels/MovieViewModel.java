@@ -1,16 +1,12 @@
 package com.classic.mvvmapplication.viewModels;
 
-import android.view.View;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
 
-import com.classic.mvvmapplication.data.DataRepository;
 import com.classic.mvvmapplication.data.MovieRepository;
 import com.classic.mvvmapplication.data.models.api.MoviesListResponse;
 import com.classic.mvvmapplication.data.models.local.Movie;
-import com.classic.mvvmapplication.ui.BaseViewModel;
 import com.classic.mvvmapplication.utilities.NetworkBoundResource;
 import com.classic.mvvmapplication.utilities.Resource;
 
