@@ -101,10 +101,10 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MovieViewMod
             }
         });
 */
-        getViewModel().getPagedMovieList().observe(this, new Observer<PagedList<Movie>>() {
+        getViewModel().getPagedMovieList().observe(this, new Observer<Resource<PagedList<Movie>>>() {
             @Override
-            public void onChanged(PagedList<Movie> movies) {
-                moviePagedAdapter.submitList(movies);
+            public void onChanged(Resource<PagedList<Movie>> movies) {
+                moviePagedAdapter.submitList(movies.data);
             }
         });
     }

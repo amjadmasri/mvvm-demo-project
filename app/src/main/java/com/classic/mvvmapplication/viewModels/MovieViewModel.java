@@ -12,6 +12,7 @@ import com.classic.mvvmapplication.data.MovieRepository;
 import com.classic.mvvmapplication.data.models.api.MoviesListResponse;
 import com.classic.mvvmapplication.data.models.local.Movie;
 import com.classic.mvvmapplication.utilities.ApiErrorMessagesProvider;
+import com.classic.mvvmapplication.utilities.NetworkBoundPagedResource;
 import com.classic.mvvmapplication.utilities.NetworkBoundResource;
 import com.classic.mvvmapplication.utilities.Resource;
 
@@ -30,7 +31,7 @@ import retrofit2.Response;
 public class MovieViewModel extends BaseViewModel {
 
     private LiveData<Resource<List<Movie>>> movieListLiveData ;
-    private final LiveData<PagedList<Movie>> pagedMovieList;
+    private final LiveData<Resource<PagedList<Movie>>> pagedMovieList;
     private MovieRepository movieRepository;
     private ApiErrorMessagesProvider apiErrorMessagesProvider;
     private Integer pageNumber=1;
@@ -41,9 +42,15 @@ public class MovieViewModel extends BaseViewModel {
 
         this.apiErrorMessagesProvider =apiErrorMessagesProvider;
         movieRepository =(MovieRepository) getDataRepository();
-        movieListLiveData=newFetchMovieList();
+        //movieListLiveData=newFetchMovieList();
 
-        pagedMovieList=getPagedMovieList();
+        //pagedMovieList=getPagedMovieList();
+
+        pagedMovieList=fetchPagedLiveData();
+    }
+
+    public LiveData<Resource<PagedList<Movie>>> getPagedMovieList(){
+        return pagedMovieList;
     }
 
     private LiveData<Resource<List<Movie>>> newFetchMovieList() {
@@ -80,6 +87,36 @@ public class MovieViewModel extends BaseViewModel {
         return movieRepository.insertMovie(movie);
    }
 
+   private LiveData<Resource<PagedList<Movie>>> fetchPagedLiveData(){
+        return (new NetworkBoundPagedResource<Movie, MoviesListResponse>(apiErrorMessagesProvider) {
+            @Override
+            protected PagedList.Config getPagedListConfiguration() {
+                return   new PagedList.Config.Builder()
+                        .setPageSize(20)
+                        .setPrefetchDistance(20)
+                        .setEnablePlaceholders(true)
+                        .build();
+            }
+
+            @Override
+            protected void saveCallResult(@NonNull MoviesListResponse item) {
+                movieRepository.insertMovieList(item.getResults());
+            }
+
+            @NonNull
+            @Override
+            protected DataSource.Factory<Integer, Movie> loadFromDb() {
+                return movieRepository.getPagedPopularMovies();
+            }
+
+            @NonNull
+            @Override
+            protected Single<Response<MoviesListResponse>> createCall(int pageNumber) {
+                return movieRepository.getRemotePopularMovieList(pageNumber);
+            }
+        }).getAsLiveData();
+   }
+
    private void fetchPopularMoviesFromNetwork(Integer page){
         if(page==null)
             page=1;
@@ -110,7 +147,7 @@ public class MovieViewModel extends BaseViewModel {
                  });;
    }
 
-   public LiveData<PagedList<Movie>> getPagedMovieList(){
+   public LiveData<PagedList<Movie>> getPagedMovieListOld(){
 
        PagedList.Config myPagingConfig = new PagedList.Config.Builder()
                .setPageSize(20)
