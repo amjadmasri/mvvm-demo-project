@@ -3,6 +3,7 @@ package com.classic.mvvmapplication.data;
 import android.content.Context;
 
 import androidx.lifecycle.LiveData;
+import androidx.paging.DataSource;
 
 import com.classic.mvvmapplication.data.api.MovieApiHelper;
 import com.classic.mvvmapplication.data.local.MovieDbHelper;
@@ -34,8 +35,8 @@ public class AppMovieRepository implements MovieRepository {
     }
 
     @Override
-    public Single<Response<MoviesListResponse>> getRemotePopularMovieList() {
-        return mApiHelper.getRemotePopularMovieList();
+    public Single<Response<MoviesListResponse>> getRemotePopularMovieList(int page) {
+        return mApiHelper.getRemotePopularMovieList(page);
     }
 
     @Override
@@ -51,5 +52,10 @@ public class AppMovieRepository implements MovieRepository {
     @Override
     public void insertMovieList(List<Movie> movieList) {
         mDbHelper.insertMovieList(movieList);
+    }
+
+    @Override
+    public DataSource.Factory<Integer, Movie> getPagedPopularMovies() {
+        return mDbHelper.getPagedPopularMovies();
     }
 }

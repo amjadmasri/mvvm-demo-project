@@ -23,7 +23,7 @@ public class AppMovieApiHelper implements MovieApiHelper{
         this.apiService=apiService;
     }
     @Override
-    public Single<Response<MoviesListResponse>> getRemotePopularMovieList() {
-        return apiService.getPopularMovies();
+    public Single<Response<MoviesListResponse>> getRemotePopularMovieList(int page) {
+        return apiService.getPopularMovies(page);
     }
 }

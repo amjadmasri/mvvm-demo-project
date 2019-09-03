@@ -25,6 +25,7 @@ import com.classic.mvvmapplication.di.interfaces.DatabaseInfo;
 import com.classic.mvvmapplication.di.interfaces.DateFormatInfo;
 import com.classic.mvvmapplication.di.interfaces.PreferenceInfo;
 import com.classic.mvvmapplication.di.interfaces.ViewModelKey;
+import com.classic.mvvmapplication.utilities.ApiErrorMessagesProvider;
 import com.classic.mvvmapplication.utilities.QueryParametersInterceptor;
 import com.classic.mvvmapplication.utilities.AppConstants;
 import com.classic.mvvmapplication.utilities.BooleanDeserializer;
@@ -198,5 +199,7 @@ public class AppModule {
     public CompositeDisposable provideCompositeDisposable(){
         return new CompositeDisposable();
     }
+
+
 
 }

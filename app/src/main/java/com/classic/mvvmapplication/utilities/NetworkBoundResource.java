@@ -22,9 +22,11 @@ import timber.log.Timber;
 
 public abstract class NetworkBoundResource<ResultType, RequestType> {
     private final MediatorLiveData<Resource<ResultType>> result = new MediatorLiveData<>();
+    private final ApiErrorMessagesProvider apiErrorProvider;
 
     @MainThread
-    public NetworkBoundResource() {
+    public NetworkBoundResource(ApiErrorMessagesProvider apiErrorMessagesProvider) {
+        this.apiErrorProvider = apiErrorMessagesProvider;
         result.setValue(Resource.<ResultType>loading(null));
         final LiveData<ResultType> dbSource = loadFromDb();
         result.addSource(dbSource, new Observer<ResultType>() {
@@ -75,7 +77,7 @@ public abstract class NetworkBoundResource<ResultType, RequestType> {
                     public void onError(Throwable e) {
                         Timber.tag("amjadF");
                         Timber.d(e);
-                        result.setValue(Resource.<ResultType>error("failed ",null));
+                        result.setValue(Resource.<ResultType>error(apiErrorProvider.getCustomErrorMessage(e),null));
                     }
                 });
     }

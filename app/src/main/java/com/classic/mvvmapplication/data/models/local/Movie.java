@@ -10,6 +10,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
+import java.util.Objects;
 
 @Entity(tableName = "movies", indices = {@Index(value = "id", unique = true)})
 public class Movie {
@@ -157,5 +158,30 @@ public class Movie {
 
     public void setReleaseDate(String releaseDate) {
         this.releaseDate = releaseDate;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Movie movie = (Movie) o;
+        return Objects.equals(getPopularity(), movie.getPopularity()) &&
+                Objects.equals(getVoteCount(), movie.getVoteCount()) &&
+                Objects.equals(getVideo(), movie.getVideo()) &&
+                getPosterPath().equals(movie.getPosterPath()) &&
+                getId().equals(movie.getId()) &&
+                Objects.equals(getAdult(), movie.getAdult()) &&
+                Objects.equals(getBackdropPath(), movie.getBackdropPath()) &&
+                Objects.equals(getOriginalLanguage(), movie.getOriginalLanguage()) &&
+                getOriginalTitle().equals(movie.getOriginalTitle()) &&
+                Objects.equals(getTitle(), movie.getTitle()) &&
+                Objects.equals(getVoteAverage(), movie.getVoteAverage()) &&
+                Objects.equals(getOverview(), movie.getOverview()) &&
+                Objects.equals(getReleaseDate(), movie.getReleaseDate());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getPopularity(), getVoteCount(), getVideo(), getPosterPath(), getId(), getAdult(), getBackdropPath(), getOriginalLanguage(), getOriginalTitle(), getTitle(), getVoteAverage(), getOverview(), getReleaseDate());
     }
 }

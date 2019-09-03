@@ -1,6 +1,7 @@
 package com.classic.mvvmapplication.data.dao;
 
 import androidx.lifecycle.LiveData;
+import androidx.paging.DataSource;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
@@ -23,6 +24,9 @@ public interface MovieDao {
 
     @Query("SELECT * FROM movies")
     LiveData<List<Movie>> loadMovies();
+
+    @Query("SELECT * from movies order by popularity DESC")
+    DataSource.Factory<Integer, Movie> loadPagedMovies();
 
 
 }

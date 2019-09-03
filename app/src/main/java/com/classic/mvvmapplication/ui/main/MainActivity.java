@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.BindingAdapter;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.paging.PagedList;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,6 +19,7 @@ import com.classic.mvvmapplication.R;
 import com.classic.mvvmapplication.data.models.local.Movie;
 import com.classic.mvvmapplication.databinding.ActivityMainBinding;
 import com.classic.mvvmapplication.ui.Adapters.MovieAdapter;
+import com.classic.mvvmapplication.ui.Adapters.MoviePagedAdapter;
 import com.classic.mvvmapplication.ui.BaseActivity;
 import com.classic.mvvmapplication.utilities.Resource;
 import com.classic.mvvmapplication.utilities.ViewModelProviderFactory;
@@ -48,6 +50,8 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MovieViewMod
     LinearLayoutManager linearLayoutManager;
     @Inject
     CompositeDisposable disposable;
+    @Inject
+    MoviePagedAdapter moviePagedAdapter;
 
     private MovieViewModel movieViewModel;
     private ActivityMainBinding activityMainBinding;
@@ -75,10 +79,10 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MovieViewMod
 
 
         activityMainBinding.movieRecyclerView.setLayoutManager(gridLayoutManager);
-        activityMainBinding.movieRecyclerView.setAdapter(movieAdapter);
+        activityMainBinding.movieRecyclerView.setAdapter(moviePagedAdapter);
 
 
-
+        /*
         getViewModel().getMovieListLiveData().observe(this, new Observer<Resource<List<Movie>>>() {
             @Override
             public void onChanged(Resource<List<Movie>> movieList) {
@@ -96,7 +100,13 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MovieViewMod
                 }
             }
         });
-
+*/
+        getViewModel().getPagedMovieList().observe(this, new Observer<PagedList<Movie>>() {
+            @Override
+            public void onChanged(PagedList<Movie> movies) {
+                moviePagedAdapter.submitList(movies);
+            }
+        });
     }
 
     private void setLoading(int state){

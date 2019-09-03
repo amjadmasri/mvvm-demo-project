@@ -5,7 +5,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.classic.mvvmapplication.data.models.local.Movie;
 import com.classic.mvvmapplication.ui.Adapters.MovieAdapter;
+import com.classic.mvvmapplication.ui.Adapters.MoviePagedAdapter;
 import com.classic.mvvmapplication.ui.main.MainActivity;
+import com.classic.mvvmapplication.utilities.MovieDiffCallBacks;
 
 import java.util.ArrayList;
 
@@ -18,6 +20,16 @@ public class MovieAdapterModule {
     @Provides
     MovieAdapter provideMovieAdapter() {
         return new MovieAdapter(new ArrayList<Movie>());
+    }
+
+    @Provides
+    MoviePagedAdapter provideMoviePagedAdapter(MovieDiffCallBacks movieDiffCallBacks) {
+        return new MoviePagedAdapter(movieDiffCallBacks);
+    }
+
+    @Provides
+    MovieDiffCallBacks provideMovieDiffCallBacks() {
+        return new MovieDiffCallBacks();
     }
 
     @Provides

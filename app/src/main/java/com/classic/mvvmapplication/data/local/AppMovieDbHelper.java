@@ -2,6 +2,7 @@ package com.classic.mvvmapplication.data.local;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.paging.DataSource;
 
 import com.classic.mvvmapplication.data.AppDatabase;
 import com.classic.mvvmapplication.data.local.asyncTasks.movieAsyncTasks.InsertMovieAsyncTask;
@@ -46,5 +47,10 @@ public class AppMovieDbHelper implements MovieDbHelper {
     public void insertMovieList(List<Movie> movieList) {
         InsertMovieListAsyncTask insertMovieListAsyncTask = new InsertMovieListAsyncTask(appDatabase);
         insertMovieListAsyncTask.execute(movieList);
+    }
+
+    @Override
+    public DataSource.Factory<Integer, Movie> getPagedPopularMovies() {
+        return appDatabase.getMovieDao().loadPagedMovies();
     }
 }
