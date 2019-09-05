@@ -12,8 +12,9 @@ import androidx.databinding.ViewDataBinding;
 import com.classic.mvvmapplication.viewModels.BaseViewModel;
 
 import dagger.android.AndroidInjection;
+import dagger.android.HasAndroidInjector;
 
-public abstract class BaseActivity<T extends ViewDataBinding, V extends BaseViewModel> extends AppCompatActivity {
+public abstract class BaseActivity<T extends ViewDataBinding, V extends BaseViewModel> extends AppCompatActivity implements HasAndroidInjector {
 
     private T mViewDataBinding;
     private V mViewModel;

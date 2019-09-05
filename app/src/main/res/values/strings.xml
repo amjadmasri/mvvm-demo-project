@@ -13,5 +13,11 @@
     <string name="networkError">Oh! You are not connected to a wifi or cellular data network. Please connect and try again</string>
     <string name="networkErrorCode">NO_INTERNET_CONNECTION</string>
     <string name="unknownError">Something went wrong!</string>
+    <string name="menu_popular">popular</string>
+    <string name="menu_profile">profile</string>
+    <string name="menu_settings">settings</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

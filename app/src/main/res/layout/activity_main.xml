@@ -1,65 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
         <variable
-            name="viewModel"
+            name="viewmodel"
             type="com.classic.mvvmapplication.viewModels.MovieViewModel" />
-
-        <variable
-            name="activity"
-            type="com.classic.mvvmapplication.ui.main.MainActivity" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        tools:context="com.classic.mvvmapplication.ui.main.MainActivity"
-
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/movie_recycler_view"
+        android:layout_height="match_parent"
+        tools:context="com.classic.mvvmapplication.ui.main.MainActivity">
+
+        <fragment
+            android:id="@+id/nav_host_fragment"
+            android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
+            app:defaultNavHost="true"
+            app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
+            app:layout_constraintLeft_toLeftOf="parent"
+
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:navGraph="@navigation/nav_graph" />
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottomNavigationView"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            app:menu="@menu/main_navigation_items"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/insert_movie_button"
-            tools:itemCount="5"
-            tools:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            tools:listitem="@layout/movie_list_item"
-            tools:orientation="vertical"
-            tools:scrollbars="vertical"
-            tools:spanCount="2" />
+            app:layout_constraintStart_toStartOf="parent">
 
-        <Button
-            android:id="@+id/insert_movie_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Button"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        </com.google.android.material.bottomnavigation.BottomNavigationView>
 
-        <androidx.core.widget.ContentLoadingProgressBar
-            android:id="@+id/address_looking_up"
-            style="?android:attr/progressBarStyleLarge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="@+id/movie_recycler_view"
-            app:layout_constraintEnd_toEndOf="@+id/movie_recycler_view"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
+
 
 

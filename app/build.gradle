@@ -52,6 +52,7 @@ dependencies {
     def room_version = "2.2.0-beta01"
 
     implementation "androidx.room:room-runtime:$room_version"
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     annotationProcessor "androidx.room:room-compiler:$room_version"
     implementation "androidx.room:room-rxjava2:$room_version"
 
@@ -68,7 +69,7 @@ dependencies {
     implementation 'com.jakewharton.timber:timber:4.7.1'
 
 
-    implementation 'io.reactivex.rxjava2:rxjava:2.1.13'
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.9'
     implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
 
     implementation 'com.github.bumptech.glide:glide:4.9.0'
@@ -80,5 +81,3 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 }
-
-

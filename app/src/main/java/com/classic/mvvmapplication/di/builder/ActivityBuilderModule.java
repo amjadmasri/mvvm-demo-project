@@ -7,9 +7,9 @@ import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
 
 @Module
-public abstract class ActivityBuilder {
+public abstract class ActivityBuilderModule {
 
-    @ContributesAndroidInjector(modules = MovieAdapterModule.class)
+    @ContributesAndroidInjector(modules = FragmentBuilderModule.class)
     abstract MainActivity bindMainActivity();
 
 }
