@@ -3,7 +3,9 @@ package com.classic.mvvmapplication.di.modules;
 import androidx.lifecycle.ViewModel;
 
 import com.classic.mvvmapplication.di.interfaces.ViewModelKey;
+import com.classic.mvvmapplication.viewModels.LoginViewModel;
 import com.classic.mvvmapplication.viewModels.MovieViewModel;
+import com.classic.mvvmapplication.viewModels.UserViewModel;
 
 import dagger.Binds;
 import dagger.Module;
@@ -15,5 +17,15 @@ public abstract class ViewModelModule {
     @Binds
     @IntoMap
     @ViewModelKey(MovieViewModel.class)
-    public abstract ViewModel bindMovieViewModel(MovieViewModel movieViewModel);
+    abstract ViewModel bindMovieViewModel(MovieViewModel movieViewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(UserViewModel.class)
+    abstract ViewModel bindUserViewModel(UserViewModel userViewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(LoginViewModel.class)
+    abstract ViewModel bindLoginViewModel(LoginViewModel loginViewModel);
 }

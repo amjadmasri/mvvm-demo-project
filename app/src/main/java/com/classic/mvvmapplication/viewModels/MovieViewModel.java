@@ -6,9 +6,8 @@ import androidx.lifecycle.LiveData;
 import androidx.paging.DataSource;
 import androidx.paging.LivePagedListBuilder;
 import androidx.paging.PagedList;
-import androidx.work.impl.Scheduler;
 
-import com.classic.mvvmapplication.data.MovieRepository;
+import com.classic.mvvmapplication.data.repositories.interfaces.MovieRepository;
 import com.classic.mvvmapplication.data.models.api.MoviesListResponse;
 import com.classic.mvvmapplication.data.models.local.Movie;
 import com.classic.mvvmapplication.utilities.ApiErrorMessagesProvider;

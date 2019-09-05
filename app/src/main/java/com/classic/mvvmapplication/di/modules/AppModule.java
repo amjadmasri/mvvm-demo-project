@@ -4,14 +4,18 @@ package com.classic.mvvmapplication.di.modules;
 import android.app.Application;
 import android.content.Context;
 
-import androidx.lifecycle.ViewModel;
 import androidx.room.Room;
 
 import com.classic.mvvmapplication.AppDataRepository;
 import com.classic.mvvmapplication.data.ApiService;
-import com.classic.mvvmapplication.data.AppMovieRepository;
-import com.classic.mvvmapplication.data.DataRepository;
-import com.classic.mvvmapplication.data.MovieRepository;
+import com.classic.mvvmapplication.data.api.AppUserApiHelper;
+import com.classic.mvvmapplication.data.api.UserApiHelper;
+import com.classic.mvvmapplication.data.local.AppUserDbHelper;
+import com.classic.mvvmapplication.data.local.UserDbHelper;
+import com.classic.mvvmapplication.data.repositories.implementations.AppMovieRepository;
+import com.classic.mvvmapplication.data.repositories.implementations.AppUserRepository;
+import com.classic.mvvmapplication.data.repositories.interfaces.DataRepository;
+import com.classic.mvvmapplication.data.repositories.interfaces.MovieRepository;
 import com.classic.mvvmapplication.data.AppDatabase;
 import com.classic.mvvmapplication.data.api.AppMovieApiHelper;
 import com.classic.mvvmapplication.data.api.MovieApiHelper;
@@ -19,18 +23,16 @@ import com.classic.mvvmapplication.data.local.AppMovieDbHelper;
 import com.classic.mvvmapplication.data.local.MovieDbHelper;
 import com.classic.mvvmapplication.data.prefs.AppPreferencesHelper;
 import com.classic.mvvmapplication.data.prefs.PreferencesHelper;
+import com.classic.mvvmapplication.data.repositories.interfaces.UserRepository;
 import com.classic.mvvmapplication.di.interfaces.ApiKeyInfo;
 import com.classic.mvvmapplication.di.interfaces.ApiURlInfo;
 import com.classic.mvvmapplication.di.interfaces.DatabaseInfo;
 import com.classic.mvvmapplication.di.interfaces.DateFormatInfo;
 import com.classic.mvvmapplication.di.interfaces.PreferenceInfo;
-import com.classic.mvvmapplication.di.interfaces.ViewModelKey;
-import com.classic.mvvmapplication.utilities.ApiErrorMessagesProvider;
 import com.classic.mvvmapplication.utilities.QueryParametersInterceptor;
 import com.classic.mvvmapplication.utilities.AppConstants;
 import com.classic.mvvmapplication.utilities.BooleanDeserializer;
 import com.classic.mvvmapplication.utilities.DateDeserializer;
-import com.classic.mvvmapplication.viewModels.MovieViewModel;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -38,10 +40,8 @@ import java.util.concurrent.TimeUnit;
 
 import javax.inject.Singleton;
 
-import dagger.Binds;
 import dagger.Module;
 import dagger.Provides;
-import dagger.multibindings.IntoMap;
 import io.reactivex.disposables.CompositeDisposable;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -184,6 +184,18 @@ public class AppModule {
         return appMovieApiHelper;
     }
 
+    @Provides
+    @Singleton
+    UserDbHelper provideUserDbHelper(AppUserDbHelper appUserDbHelper) {
+        return appUserDbHelper;
+    }
+
+    @Provides
+    @Singleton
+    UserApiHelper provideUserApiHelper(AppUserApiHelper appUserApiHelper) {
+        return appUserApiHelper;
+    }
+
     @Singleton
     @Provides
     public GsonConverterFactory gsonConverterFactory(Gson gson){
@@ -193,6 +205,11 @@ public class AppModule {
     @Provides
     public MovieRepository provideMovieRepository(AppMovieRepository appMovieRepository){
         return appMovieRepository;
+    }
+
+    @Provides
+    UserRepository provideUserRepository (AppUserRepository appUserRepository){
+        return appUserRepository;
     }
 
     @Provides

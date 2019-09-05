@@ -1,6 +1,6 @@
 package com.classic.mvvmapplication;
 
-import com.classic.mvvmapplication.data.DataRepository;
+import com.classic.mvvmapplication.data.repositories.interfaces.DataRepository;
 
 import javax.inject.Inject;
 

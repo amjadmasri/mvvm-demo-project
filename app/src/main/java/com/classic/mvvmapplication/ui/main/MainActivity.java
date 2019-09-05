@@ -1,47 +1,31 @@
 package com.classic.mvvmapplication.ui.main;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.databinding.BindingAdapter;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
-import androidx.paging.PagedList;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.NavigationUI;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
 import com.classic.mvvmapplication.BR;
+import com.classic.mvvmapplication.ui.fragments.PopularMoviesFragment;
+import com.classic.mvvmapplication.ui.fragments.ProfileFragment;
 import com.classic.mvvmapplication.R;
+import com.classic.mvvmapplication.ui.fragments.SettingsFragment;
 import com.classic.mvvmapplication.SplashFragment;
-import com.classic.mvvmapplication.data.models.local.Movie;
 import com.classic.mvvmapplication.databinding.ActivityMainBinding;
-import com.classic.mvvmapplication.ui.Adapters.MovieAdapter;
-import com.classic.mvvmapplication.ui.Adapters.MoviePagedAdapter;
 import com.classic.mvvmapplication.ui.BaseActivity;
-import com.classic.mvvmapplication.utilities.Resource;
 import com.classic.mvvmapplication.utilities.ViewModelProviderFactory;
 import com.classic.mvvmapplication.viewModels.MovieViewModel;
-
-import java.util.List;
-import java.util.Random;
-import java.util.Timer;
 
 import javax.inject.Inject;
 
 import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
-import io.reactivex.Scheduler;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.observers.DisposableCompletableObserver;
-import io.reactivex.schedulers.Schedulers;
-import timber.log.Timber;
 
-public class MainActivity extends BaseActivity<ActivityMainBinding, MovieViewModel> implements SplashFragment.OnFragmentInteractionListener {
+public class MainActivity extends BaseActivity<ActivityMainBinding, MovieViewModel> implements SplashFragment.OnFragmentInteractionListener , PopularMoviesFragment.OnFragmentInteractionListener, SettingsFragment.OnFragmentInteractionListener, ProfileFragment.OnFragmentInteractionListener {
 
     @Inject
     DispatchingAndroidInjector<Object> androidInjector;
@@ -55,6 +39,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MovieViewMod
 
     private MovieViewModel movieViewModel;
     private ActivityMainBinding activityMainBinding;
+    private NavController navController;
 
     @Override
     public int getBindingVariable() {
@@ -63,7 +48,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MovieViewMod
 
     @Override
     public int getLayoutId() {
-       return R.layout.activity_main;
+        return R.layout.activity_main;
     }
 
     @Override
@@ -82,6 +67,11 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MovieViewMod
         super.onCreate(savedInstanceState);
         activityMainBinding = getViewDataBinding();
 
+        navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+
+
+        NavigationUI.setupWithNavController(activityMainBinding.bottomNavigationView, navController);
+
     }
 
 
@@ -93,4 +83,14 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MovieViewMod
         disposable.clear();
     }
 
+    @Override
+    public void modifyToolbarAndNavigationVisibilty(boolean isVisible) {
+        if (isVisible) {
+            getSupportActionBar().show();
+            activityMainBinding.bottomNavigationView.setVisibility(View.VISIBLE);
+        } else {
+            getSupportActionBar().hide();
+            activityMainBinding.bottomNavigationView.setVisibility(View.GONE);
+        }
+    }
 }

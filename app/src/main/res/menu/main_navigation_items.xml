@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/action_popular"
+    <item android:id="@+id/popular_movies"
         android:title="@string/menu_popular"
         android:icon="@drawable/ic_popular_24dp" />
-    <item android:id="@+id/action_profile"
+    <item android:id="@+id/profile"
         android:title="@string/menu_profile"
         android:icon="@drawable/ic_person_black_24dp" />
-    <item android:id="@+id/action_settings"
+    <item android:id="@+id/settings"
         android:title="@string/menu_settings"
         android:icon="@drawable/ic_settings_black_24dp" />
 </menu>

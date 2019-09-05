@@ -3,7 +3,7 @@ package com.classic.mvvmapplication.viewModels;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.classic.mvvmapplication.data.DataRepository;
+import com.classic.mvvmapplication.data.repositories.interfaces.DataRepository;
 
 public class BaseViewModel  extends ViewModel {
 

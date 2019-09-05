@@ -1,4 +1,4 @@
-package com.classic.mvvmapplication.data;
+package com.classic.mvvmapplication.data.repositories.implementations;
 
 import android.content.Context;
 
@@ -10,6 +10,7 @@ import com.classic.mvvmapplication.data.local.MovieDbHelper;
 import com.classic.mvvmapplication.data.models.api.MoviesListResponse;
 import com.classic.mvvmapplication.data.models.local.Movie;
 import com.classic.mvvmapplication.data.prefs.PreferencesHelper;
+import com.classic.mvvmapplication.data.repositories.interfaces.MovieRepository;
 
 import java.util.List;
 
