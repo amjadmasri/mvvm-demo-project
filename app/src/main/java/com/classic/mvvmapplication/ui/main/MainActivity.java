@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.classic.mvvmapplication.BR;
+import com.classic.mvvmapplication.ui.fragments.LoginFragment;
 import com.classic.mvvmapplication.ui.fragments.PopularMoviesFragment;
 import com.classic.mvvmapplication.ui.fragments.ProfileFragment;
 import com.classic.mvvmapplication.R;
@@ -25,7 +26,9 @@ import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
 import io.reactivex.disposables.CompositeDisposable;
 
-public class MainActivity extends BaseActivity<ActivityMainBinding, MovieViewModel> implements SplashFragment.OnFragmentInteractionListener , PopularMoviesFragment.OnFragmentInteractionListener, SettingsFragment.OnFragmentInteractionListener, ProfileFragment.OnFragmentInteractionListener {
+public class MainActivity extends BaseActivity<ActivityMainBinding, MovieViewModel> implements SplashFragment.OnFragmentInteractionListener ,
+        PopularMoviesFragment.OnFragmentInteractionListener, SettingsFragment.OnFragmentInteractionListener,
+        ProfileFragment.OnFragmentInteractionListener, LoginFragment.OnFragmentInteractionListener {
 
     @Inject
     DispatchingAndroidInjector<Object> androidInjector;

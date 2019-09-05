@@ -9,7 +9,11 @@
         android:id="@+id/splashFragment"
         android:name="com.classic.mvvmapplication.SplashFragment"
         android:label="fragment_splash"
-        tools:layout="@layout/fragment_splash" />
+        tools:layout="@layout/fragment_splash" >
+        <action
+            android:id="@+id/action_splashFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
     <fragment
         android:id="@+id/popular_movies"
         android:name="com.classic.mvvmapplication.ui.fragments.PopularMoviesFragment"
@@ -25,4 +29,8 @@
         android:name="com.classic.mvvmapplication.ui.fragments.SettingsFragment"
         android:label="fragment_settings"
         tools:layout="@layout/fragment_settings" />
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.classic.mvvmapplication.ui.fragments.LoginFragment"
+        android:label="LoginFragment" />
 </navigation>

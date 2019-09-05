@@ -14,12 +14,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.classic.mvvmapplication.R;
+import com.classic.mvvmapplication.databinding.LoginFragmentBinding;
+import com.classic.mvvmapplication.ui.BaseFragment;
 import com.classic.mvvmapplication.utilities.ViewModelProviderFactory;
 import com.classic.mvvmapplication.viewModels.LoginViewModel;
 
 import javax.inject.Inject;
 
-public class LoginFragment extends Fragment {
+public class LoginFragment extends BaseFragment<LoginViewModel, LoginFragmentBinding> {
 
     @Inject
     ViewModelProviderFactory viewModelProviderFactory;
@@ -39,20 +41,23 @@ public class LoginFragment extends Fragment {
     }
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
+    protected Class getViewModel() {
+        return LoginViewModel.class;
+    }
+
+    @Override
+    protected int getLayoutRes() {
+        return R.layout.login_fragment;
+    }
+
+    @Override
+    protected void attachFragmentInteractionListener(Context context) {
         if (context instanceof LoginFragment.OnFragmentInteractionListener) {
             mListener = (LoginFragment.OnFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
-    }
-
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.login_fragment, container, false);
     }
 
     @Override

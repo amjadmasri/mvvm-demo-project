@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.classic.mvvmapplication.databinding.FragmentSplashBinding;
 import com.classic.mvvmapplication.ui.BaseFragment;
 import com.classic.mvvmapplication.utilities.ViewModelProviderFactory;
 import com.classic.mvvmapplication.viewModels.UserViewModel;
@@ -26,7 +27,7 @@ import javax.inject.Inject;
 import timber.log.Timber;
 
 
-public class SplashFragment extends BaseFragment {
+public class SplashFragment extends BaseFragment<UserViewModel, FragmentSplashBinding> {
 
     @Inject
     ViewModelProviderFactory viewModelProviderFactory;
@@ -56,13 +57,6 @@ public class SplashFragment extends BaseFragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_splash, container, false);
-    }
-
-    @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Timber.d("factory is "+(viewModelProviderFactory==null));
@@ -78,12 +72,14 @@ public class SplashFragment extends BaseFragment {
     private void checkIfUserExist() {
         userViewModel.checkIfUserExist().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
             @Override
-            public void onChanged(Boolean aBoolean) {
+            public void onChanged(final Boolean aBoolean) {
+
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        navController.navigate(R.id.popular_movies);
-                        mListener.modifyToolbarAndNavigationVisibilty(true);
+
+                        handleNavigation(aBoolean);
+
                     }
                 },2000);
 
@@ -91,10 +87,29 @@ public class SplashFragment extends BaseFragment {
         });
     }
 
+    private void handleNavigation(Boolean isUserExist) {
+        if(isUserExist){
+            navController.navigate(R.id.popular_movies);
+            mListener.modifyToolbarAndNavigationVisibilty(true);
+        }
+        else{
+            navController.navigate(R.id.action_splashFragment_to_loginFragment);
+        }
+    }
+
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
+    protected Class getViewModel() {
+        return UserViewModel.class;
+    }
+
+    @Override
+    protected int getLayoutRes() {
+        return R.layout.fragment_splash;
+    }
+
+    @Override
+    protected void attachFragmentInteractionListener(Context context) {
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {
