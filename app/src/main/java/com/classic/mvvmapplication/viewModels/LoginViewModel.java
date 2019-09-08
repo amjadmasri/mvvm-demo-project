@@ -42,7 +42,7 @@ public class LoginViewModel extends BaseViewModel {
     }
 
     private void requestNewToken() {
-        status.setValue(Resource.<Boolean>loading(null));
+       // status.setValue(Resource.<Boolean>loading(null));
         userRepository.getRequestToken()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -59,7 +59,7 @@ public class LoginViewModel extends BaseViewModel {
                             if(loginResponse.getSuccess()) {
                                 requestToken=loginResponse.getRequestToken();
 
-                                status.setValue(Resource.<Boolean>success(null));
+                               // status.setValue(Resource.<Boolean>success(null));
                             }
                         }
                     }

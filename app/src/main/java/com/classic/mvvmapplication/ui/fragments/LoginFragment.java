@@ -10,6 +10,8 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import android.view.View;
 import android.widget.Toast;
@@ -33,6 +35,7 @@ public class LoginFragment extends BaseFragment<LoginViewModel, LoginFragmentBin
     private LoginViewModel loginViewModel;
 
     private LoginFragment.OnFragmentInteractionListener mListener;
+    private NavController navController;
 
     public static LoginFragment newInstance() {
         return new LoginFragment();
@@ -123,7 +126,9 @@ public class LoginFragment extends BaseFragment<LoginViewModel, LoginFragmentBin
                 }
                 else if (booleanResource.status.equals(Resource.Status.SUCCESS)) {
                     setLoading(View.GONE);
-                    Toast.makeText(getContext(), "Success", Toast.LENGTH_SHORT).show();
+                    navController.navigate(R.id.action_loginFragment_to_popular_movies);
+                    mListener.modifyToolbarAndNavigationVisibilty(true);
+
                 }
                 else if (booleanResource.status.equals(Resource.Status.ERROR)){
                     setLoading(View.GONE);
@@ -142,11 +147,11 @@ public class LoginFragment extends BaseFragment<LoginViewModel, LoginFragmentBin
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-
+        navController = Navigation.findNavController(view);
     }
 
     public interface OnFragmentInteractionListener {
-
+        void modifyToolbarAndNavigationVisibilty(boolean visibility);
     }
 
 }
