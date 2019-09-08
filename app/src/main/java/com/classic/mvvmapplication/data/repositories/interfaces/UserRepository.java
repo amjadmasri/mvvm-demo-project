@@ -6,4 +6,6 @@ import com.classic.mvvmapplication.data.local.MovieDbHelper;
 import com.classic.mvvmapplication.data.local.UserDbHelper;
 
 public interface UserRepository extends UserDbHelper, UserApiHelper, DataRepository {
+
+    void saveSessionToken(String userSesssion);
 }

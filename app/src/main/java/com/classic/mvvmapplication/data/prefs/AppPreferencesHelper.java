@@ -12,6 +12,7 @@ import javax.inject.Inject;
 public class AppPreferencesHelper implements PreferencesHelper {
 
     private static final String PREF_KEY_DATA_LANGUAGE = "PREF_KEY_DATA_LANGUAGE";
+    private static final String PREF_KEY_SESSION_KEY = "PREF_KEY_SESSION_KEY";
 
 
     private final SharedPreferences mPrefs;
@@ -29,5 +30,15 @@ public class AppPreferencesHelper implements PreferencesHelper {
     @Override
     public void setDataLanguage(String dataLanguage) {
         mPrefs.edit().putString(PREF_KEY_DATA_LANGUAGE, dataLanguage).apply();
+    }
+
+    @Override
+    public void setSessionKey(String session) {
+        mPrefs.edit().putString(PREF_KEY_SESSION_KEY, session).apply();
+    }
+
+    @Override
+    public String getSessionKey() {
+        return mPrefs.getString(PREF_KEY_SESSION_KEY, null);
     }
 }

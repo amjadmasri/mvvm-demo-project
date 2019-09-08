@@ -6,4 +6,7 @@ public interface PreferencesHelper {
 
     void setDataLanguage(String dataLanguage);
 
+    void setSessionKey(String session);
+
+    String getSessionKey();
 }

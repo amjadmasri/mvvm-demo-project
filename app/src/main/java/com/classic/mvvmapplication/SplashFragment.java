@@ -41,6 +41,11 @@ public class SplashFragment extends BaseFragment<UserViewModel, FragmentSplashBi
         // Required empty public constructor
     }
 
+    @Override
+    protected int getBindingVariable() {
+        return BR.userViewModel;
+    }
+
     public static SplashFragment newInstance() {
         SplashFragment fragment = new SplashFragment();
         Bundle args = new Bundle();

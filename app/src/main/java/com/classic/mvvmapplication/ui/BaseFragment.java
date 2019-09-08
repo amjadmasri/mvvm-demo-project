@@ -44,4 +44,15 @@ public abstract class BaseFragment<V extends ViewModel, D extends ViewDataBindin
         dataBinding = DataBindingUtil.inflate(inflater, getLayoutRes(), container, false);
         return dataBinding.getRoot();
     }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        dataBinding.setVariable(getBindingVariable(), viewModel);
+        dataBinding.setLifecycleOwner(this);
+        dataBinding.executePendingBindings();
+    }
+
+    protected abstract int getBindingVariable();
 }
