@@ -21,4 +21,9 @@ public class AppUserDbHelper implements UserDbHelper {
     public LiveData<User> getUser() {
         return appDatabase.getUserProfileDao().loadUser();
     }
+
+    @Override
+    public void saveUser(User user) {
+        appDatabase.getUserProfileDao().insertUser(user);
+    }
 }

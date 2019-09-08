@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModel;
 import com.classic.mvvmapplication.data.models.api.CreateGuestSessionResponse;
 import com.classic.mvvmapplication.data.models.api.CreateUserSessionResponse;
 import com.classic.mvvmapplication.data.models.api.LoginResponse;
+import com.classic.mvvmapplication.data.models.local.User;
 import com.classic.mvvmapplication.data.repositories.interfaces.DataRepository;
 import com.classic.mvvmapplication.data.repositories.interfaces.UserRepository;
 import com.classic.mvvmapplication.utilities.Resource;
@@ -121,7 +122,7 @@ public class LoginViewModel extends BaseViewModel {
                                 CreateGuestSessionResponse createGuestSessionResponse = createGuestSessionResponseResponse.body();
                                 if(createGuestSessionResponse.getSuccess()) {
                                     userRepository.saveSessionToken(createGuestSessionResponse.getGuestSessionId());
-
+                                    saveLocalUser(createGuestSessionResponse.getGuestSessionId(),createGuestSessionResponse.getExpiresAt(),true);
                                     status.setValue(Resource.<Boolean>success(null));
                                 }
                             }
@@ -136,6 +137,15 @@ public class LoginViewModel extends BaseViewModel {
         else{
             Timber.d("hrere? "+requestToken);
         }
+    }
+
+    private void saveLocalUser(String guestSessionId, String expiresAt,boolean isGuest) {
+        User user = new User();
+        user.setSessionKey(guestSessionId);
+        user.setSessionKeyExpireDate(expiresAt);
+        if(isGuest)
+            user.setUsername("Guest");
+        userRepository.saveUser(user);
     }
 
     private void serverLogin(String email, String password) {
@@ -184,7 +194,7 @@ public class LoginViewModel extends BaseViewModel {
                             CreateUserSessionResponse createUserSessionResponse = createUserSessionResponseResponse.body();
                             if(createUserSessionResponse.getSuccess()) {
                                 userRepository.saveSessionToken(createUserSessionResponse.getSessionId());
-
+                                saveLocalUser(createUserSessionResponse.getSessionId(),null,false);
                                 status.setValue(Resource.<Boolean>success(null));
                             }
                         }

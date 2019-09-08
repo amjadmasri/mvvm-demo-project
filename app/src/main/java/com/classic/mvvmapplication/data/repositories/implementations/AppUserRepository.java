@@ -1,6 +1,7 @@
 package com.classic.mvvmapplication.data.repositories.implementations;
 
 import android.content.Context;
+import android.os.AsyncTask;
 
 import androidx.lifecycle.LiveData;
 
@@ -36,6 +37,17 @@ public class AppUserRepository implements UserRepository {
     @Override
     public LiveData<User> getUser() {
         return mDbHelper.getUser();
+    }
+
+    @Override
+    public void saveUser(User user) {
+        new AsyncTask<User, Void, Void>() {
+            @Override
+            protected Void doInBackground(User... users) {
+                mDbHelper.saveUser(users[0]);
+                return null;
+            }
+        }.execute(user);
     }
 
     @Override

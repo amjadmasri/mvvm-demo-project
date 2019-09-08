@@ -8,7 +8,7 @@ import com.classic.mvvmapplication.data.dao.UserProfileDao;
 import com.classic.mvvmapplication.data.models.local.Movie;
 import com.classic.mvvmapplication.data.models.local.User;
 
-@Database(entities = {Movie.class, User.class}, version = 2)
+@Database(entities = {Movie.class, User.class}, version = 3)
 public abstract class AppDatabase extends RoomDatabase {
 
     public abstract MovieDao getMovieDao();

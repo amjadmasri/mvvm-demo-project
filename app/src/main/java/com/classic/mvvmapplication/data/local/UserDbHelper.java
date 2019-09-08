@@ -7,4 +7,6 @@ import com.classic.mvvmapplication.data.models.local.User;
 public interface UserDbHelper {
 
     LiveData<User> getUser();
+
+    void saveUser(User user);
 }
