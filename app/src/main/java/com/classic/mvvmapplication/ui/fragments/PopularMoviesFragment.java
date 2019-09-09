@@ -121,7 +121,7 @@ public class PopularMoviesFragment extends BaseFragment<MovieViewModel, Fragment
 
         dataBinding.popularMovieRecyclerView.setLayoutManager(gridLayoutManager);
         dataBinding.popularMovieRecyclerView.setAdapter(moviePagedAdapter);
-        dataBinding.popularMovieRecyclerView.addItemDecoration(recyclerViewItemDecoratorgit );
+        dataBinding.popularMovieRecyclerView.addItemDecoration(recyclerViewItemDecorator);
 
         movieViewModel.getPagedMovieList().observe(this, new Observer<Resource<PagedList<Movie>>>() {
             @Override
