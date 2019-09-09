@@ -71,7 +71,7 @@ public class AppUserRepository implements UserRepository {
     }
 
     @Override
-    public void saveSessionToken(String sessionToken){
-        mPreferencesHelper.setSessionKey(sessionToken);
+    public void saveSessionToken(String userSession){
+        mPreferencesHelper.setSessionKey(userSession);
     }
 }
