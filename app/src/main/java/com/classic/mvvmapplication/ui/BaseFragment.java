@@ -13,6 +13,8 @@ import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModel;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import dagger.android.AndroidInjection;
 import dagger.android.support.AndroidSupportInjection;
@@ -22,6 +24,8 @@ public abstract class BaseFragment<V extends ViewModel, D extends ViewDataBindin
     protected V viewModel;
 
     protected D dataBinding;
+
+    protected NavController navController;
 
     protected abstract Class<V> getViewModel();
 
@@ -52,6 +56,8 @@ public abstract class BaseFragment<V extends ViewModel, D extends ViewDataBindin
         dataBinding.setVariable(getBindingVariable(), viewModel);
         dataBinding.setLifecycleOwner(this);
         dataBinding.executePendingBindings();
+
+        navController = Navigation.findNavController(view);
     }
 
     protected abstract int getBindingVariable();

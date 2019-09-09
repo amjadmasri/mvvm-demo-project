@@ -3,6 +3,7 @@ package com.classic.mvvmapplication.ui.fragments;
 import android.content.Context;
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -73,6 +74,13 @@ public class PopularMoviesFragment extends BaseFragment<MovieViewModel, Fragment
         if (getArguments() != null) {
 
         }
+
+        requireActivity().getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                getActivity().finish();
+            }
+        });
     }
 
     @Override
