@@ -26,6 +26,7 @@ import com.classic.mvvmapplication.databinding.FragmentPopularMoviesBinding;
 import com.classic.mvvmapplication.ui.Adapters.MovieAdapter;
 import com.classic.mvvmapplication.ui.Adapters.MoviePagedAdapter;
 import com.classic.mvvmapplication.ui.BaseFragment;
+import com.classic.mvvmapplication.utilities.RecyclerViewItemDecorator;
 import com.classic.mvvmapplication.utilities.Resource;
 import com.classic.mvvmapplication.utilities.ViewModelProviderFactory;
 import com.classic.mvvmapplication.viewModels.MovieViewModel;
@@ -49,6 +50,8 @@ public class PopularMoviesFragment extends BaseFragment<MovieViewModel, Fragment
     CompositeDisposable disposable;
     @Inject
     MoviePagedAdapter moviePagedAdapter;
+    @Inject
+    RecyclerViewItemDecorator recyclerViewItemDecorator;
 
     private MovieViewModel movieViewModel;
 
@@ -118,6 +121,7 @@ public class PopularMoviesFragment extends BaseFragment<MovieViewModel, Fragment
 
         dataBinding.popularMovieRecyclerView.setLayoutManager(gridLayoutManager);
         dataBinding.popularMovieRecyclerView.setAdapter(moviePagedAdapter);
+        dataBinding.popularMovieRecyclerView.addItemDecoration(recyclerViewItemDecoratorgit );
 
         movieViewModel.getPagedMovieList().observe(this, new Observer<Resource<PagedList<Movie>>>() {
             @Override

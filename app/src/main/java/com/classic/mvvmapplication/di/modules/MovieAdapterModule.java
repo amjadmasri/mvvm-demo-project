@@ -8,6 +8,7 @@ import com.classic.mvvmapplication.ui.Adapters.MovieAdapter;
 import com.classic.mvvmapplication.ui.Adapters.MoviePagedAdapter;
 import com.classic.mvvmapplication.ui.main.MainActivity;
 import com.classic.mvvmapplication.utilities.MovieDiffCallBacks;
+import com.classic.mvvmapplication.utilities.RecyclerViewItemDecorator;
 
 import java.util.ArrayList;
 
@@ -40,5 +41,10 @@ public class MovieAdapterModule {
     @Provides
     LinearLayoutManager provideLinearLayoutManager(MainActivity mainActivity) {
         return new LinearLayoutManager(mainActivity);
+    }
+
+    @Provides
+    RecyclerViewItemDecorator provideRecyclerViewItemDecorator(){
+        return new RecyclerViewItemDecorator(5);
     }
 }
