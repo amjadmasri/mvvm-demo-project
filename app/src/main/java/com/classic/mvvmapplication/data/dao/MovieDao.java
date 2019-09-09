@@ -20,7 +20,7 @@ public interface MovieDao {
     Completable insert(Movie movie);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    List<Long> insertList(List<Movie> movieList);
+    Completable insertList(List<Movie> movieList);
 
     @Query("SELECT * FROM movies")
     LiveData<List<Movie>> loadMovies();

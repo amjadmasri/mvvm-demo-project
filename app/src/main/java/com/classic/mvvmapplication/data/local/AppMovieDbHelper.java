@@ -31,7 +31,7 @@ public class AppMovieDbHelper implements MovieDbHelper {
 
     @Override
     public LiveData<List<Movie>> getMovieList() {
-        Timber.d("getMovieList: ");
+        Timber.d("getAllLocalMovieList: ");
         return appDatabase.getMovieDao().loadMovies();
     }
 
@@ -44,9 +44,8 @@ public class AppMovieDbHelper implements MovieDbHelper {
     }
 
     @Override
-    public void insertMovieList(List<Movie> movieList) {
-        InsertMovieListAsyncTask insertMovieListAsyncTask = new InsertMovieListAsyncTask(appDatabase);
-        insertMovieListAsyncTask.execute(movieList);
+    public Completable insertMovieList(List<Movie> movieList) {
+       return appDatabase.getMovieDao().insertList(movieList);
     }
 
     @Override
