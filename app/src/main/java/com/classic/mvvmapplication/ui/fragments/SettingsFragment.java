@@ -4,17 +4,30 @@ import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.preference.ListPreference;
+import androidx.preference.Preference;
+import androidx.preference.PreferenceFragmentCompat;
+import androidx.preference.PreferenceManager;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.classic.mvvmapplication.R;
+import com.classic.mvvmapplication.data.prefs.PreferencesHelper;
+
+import javax.inject.Inject;
+
+import dagger.android.support.AndroidSupportInjection;
+import timber.log.Timber;
 
 
-public class SettingsFragment extends Fragment {
+public class SettingsFragment extends PreferenceFragmentCompat {
 
     private OnFragmentInteractionListener mListener;
+
+    @Inject
+    PreferencesHelper preferencesHelper;
 
     public SettingsFragment() {
         // Required empty public constructor
@@ -43,14 +56,26 @@ public class SettingsFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_settings, container, false);
+    public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
+        setPreferencesFromResource(R.xml.app_settings, rootKey);
+
+        ListPreference listPreference = findPreference("PREF_KEY_DATA_LANGUAGE");
+
+        listPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+
+               preferencesHelper.setIsDirty(true);
+
+                return true;
+            }
+        });
+
     }
 
     @Override
     public void onAttach(Context context) {
+        AndroidSupportInjection.inject(this);
         super.onAttach(context);
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;

@@ -103,6 +103,16 @@ public class AppMovieRepository implements MovieRepository {
             protected Single<Response<MoviesListResponse>> createCall(int pageNumber) {
                 return mApiHelper.getRemotePopularMovieList(pageNumber);
             }
+
+            @Override
+            protected boolean shouldFetch(@Nullable PagedList<Movie> data) {
+                if(mPreferencesHelper.getIsDataDirty()){
+                    mPreferencesHelper.setIsDirty(false);
+                    return true;
+                }
+                else
+                    return super.shouldFetch(data);
+            }
         }).getAsLiveData();
     }
 

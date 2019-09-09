@@ -82,7 +82,7 @@ public class SplashFragment extends BaseFragment<UserViewModel, FragmentSplashBi
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-
+                        if(mListener!=null)
                         handleNavigation(aBoolean);
 
                     }

@@ -9,4 +9,8 @@ public interface PreferencesHelper {
     void setSessionKey(String session);
 
     String getSessionKey();
+
+    boolean getIsDataDirty();
+
+    void setIsDirty(boolean isDirty);
 }

@@ -84,7 +84,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
         void bindModel(int position, Movie movie)
         {
             Timber.d("bindModel "+movie.getOriginalTitle());
-            movieTitle.setText(movie.getOriginalTitle());
+            movieTitle.setText(movie.getTitle());
             Glide.with(moviePoster.getContext())
                     .load(AppConstants.BASE_POSTER_PATH+movie.getPosterPath()).into(moviePoster);
         }

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ListPreference
+        android:defaultValue="en-US"
+        android:entries="@array/Language_keys"
+        android:entryValues="@array/Language_values"
+        app:key="PREF_KEY_DATA_LANGUAGE"
+        app:title="Choose Data Language" />
+
+    <Preference
+        app:key="versionNumber"
+        app:title="Version Number "
+        app:summary="mvvm app version 1.0.0"/>
+
+</PreferenceScreen>

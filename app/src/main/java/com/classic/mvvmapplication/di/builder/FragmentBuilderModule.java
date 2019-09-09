@@ -5,6 +5,7 @@ import com.classic.mvvmapplication.di.modules.MovieAdapterModule;
 import com.classic.mvvmapplication.ui.Adapters.MovieAdapter;
 import com.classic.mvvmapplication.ui.fragments.LoginFragment;
 import com.classic.mvvmapplication.ui.fragments.PopularMoviesFragment;
+import com.classic.mvvmapplication.ui.fragments.SettingsFragment;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
@@ -21,5 +22,8 @@ public abstract class FragmentBuilderModule {
 
     @ContributesAndroidInjector(modules = MovieAdapterModule.class)
     abstract PopularMoviesFragment contributePopularMoviesFragment();
+
+    @ContributesAndroidInjector
+    abstract SettingsFragment contributeSettingsFragment();
 
 }
