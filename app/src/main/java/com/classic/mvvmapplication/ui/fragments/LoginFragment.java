@@ -92,7 +92,7 @@ public class LoginFragment extends BaseFragment<LoginViewModel, LoginFragmentBin
             public void onClick(View v) {
                 String name = dataBinding.etEmail.getText().toString();
                 String password = dataBinding.etPassword.getText().toString();
-                loginViewModel.validateAndLogin(name, password);
+               attemptLogin(name,password);
             }
         });
 
@@ -117,30 +117,75 @@ public class LoginFragment extends BaseFragment<LoginViewModel, LoginFragmentBin
             }
         });
 
-        loginViewModel.getStatusLiveData().observe(requireActivity(), new Observer<Resource<Boolean>>() {
-            @Override
-            public void onChanged(Resource<Boolean> booleanResource) {
-                if(booleanResource.status.equals(Resource.Status.LOADING)){
-                    Timber.d("loading ");
-                    setLoading(View.VISIBLE);
-                }
-                else if (booleanResource.status.equals(Resource.Status.SUCCESS)) {
-                    setLoading(View.GONE);
-                    navController.navigate(R.id.action_loginFragment_to_popular_movies);
-                    mListener.modifyToolbarAndNavigationVisibilty(true);
 
-                }
-                else if (booleanResource.status.equals(Resource.Status.ERROR)){
-                    setLoading(View.GONE);
-                    Toast.makeText(getContext(), booleanResource.message, Toast.LENGTH_SHORT).show();
+        loginViewModel.getGetNewTokenLiveData().observe(requireActivity(), new Observer<Resource<String>>() {
+            @Override
+            public void onChanged(Resource<String> stringResource) {
+                switch (stringResource.status){
+                    case SUCCESS:
+                        setLoading(View.GONE);
+                        dataBinding.btnServerLogin.setClickable(true);
+                        break;
+                    case ERROR:
+                        setStatusMessage(stringResource.data);
+                        setLoading(View.GONE);
+                        Toast.makeText(requireContext(), stringResource.message, Toast.LENGTH_SHORT).show();
+                        dataBinding.btnServerLogin.setClickable(true);
+                        break;
+                    case LOADING:
+                        setStatusMessage(stringResource.data);
+                        setLoading(View.VISIBLE);
+                        dataBinding.btnServerLogin.setClickable(false);
+                        break;
                 }
             }
         });
 
     }
 
+    private void attemptLogin(String name, String password) {
+        if(loginViewModel.validateLogin(name,password)){
+            loginViewModel.loginUser(name,password).observe(requireActivity(), new Observer<Resource<String>>() {
+                @Override
+                public void onChanged(Resource<String> stringResource) {
+                    switch (stringResource.status){
+                        case SUCCESS:
+                            setStatusMessage(stringResource.data);
+                            setLoading(View.GONE);
+                            navigateToMain();
+                            break;
+                        case ERROR:
+                            setStatusMessage(stringResource.data);
+                            setLoading(View.GONE);
+                            Toast.makeText(requireContext(), stringResource.message, Toast.LENGTH_SHORT).show();
+                            break;
+                        case LOADING:
+                            setStatusMessage(stringResource.data);
+                            setLoading(View.VISIBLE);
+                            break;
+                    }
+                }
+            });
+        }
+    }
+
+    private void navigateToMain() {
+
+        navController.navigate(R.id.action_loginFragment_to_popular_movies);
+        mListener.modifyToolbarAndNavigationVisibilty(true);
+    }
+
     private void setLoading(int visibility) {
         dataBinding.loginLoading.setVisibility(visibility);
+    }
+
+    private void setStatusMessage(String status){
+        if(status!=null) {
+            dataBinding.statusText.setVisibility(View.VISIBLE);
+            dataBinding.statusText.setText(status);
+        }
+        else
+            dataBinding.statusText.setVisibility(View.GONE);
     }
 
     @Override

@@ -2,8 +2,10 @@ package com.classic.mvvmapplication.viewModels;
 
 import android.util.Patterns;
 
+import androidx.arch.core.util.Function;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModel;
 
 import com.classic.mvvmapplication.data.models.api.CreateGuestSessionResponse;
@@ -28,7 +30,8 @@ public class LoginViewModel extends BaseViewModel {
 
     private MutableLiveData<String> emailError = new MutableLiveData<>();
     private MutableLiveData<String> passwordError = new MutableLiveData<>();
-    private MutableLiveData<Resource<Boolean>> status= new MutableLiveData<>();
+    private MutableLiveData<Resource<String>> loginStatus= new MutableLiveData<>();
+    private LiveData<Resource<String>> getNewTokenLiveData= new MutableLiveData<>();
     private String requestToken;
 
     private UserRepository userRepository;
@@ -43,33 +46,15 @@ public class LoginViewModel extends BaseViewModel {
     }
 
     private void requestNewToken() {
-       // status.setValue(Resource.<Boolean>loading(null));
-        userRepository.getRequestToken()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new SingleObserver<Response<LoginResponse>>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-
-                    }
-
-                    @Override
-                    public void onSuccess(Response<LoginResponse> loginResponseResponse) {
-                        if(loginResponseResponse.isSuccessful()){
-                            LoginResponse loginResponse = loginResponseResponse.body();
-                            if(loginResponse.getSuccess()) {
-                                requestToken=loginResponse.getRequestToken();
-
-                               // status.setValue(Resource.<Boolean>success(null));
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-                });
+        getNewTokenLiveData=Transformations.map(userRepository.getRequestToken(), new Function<Resource<String>, Resource<String>>() {
+            @Override
+            public Resource<String> apply(Resource<String> input) {
+                if(input.status.equals(Resource.Status.SUCCESS)){
+                    requestToken=input.data;
+                }
+                return input;
+            }
+        });
     }
 
 
@@ -81,133 +66,38 @@ public class LoginViewModel extends BaseViewModel {
         return passwordError;
     }
 
-    public LiveData<Resource<Boolean>> getStatusLiveData(){
-        return status;
-    }
-
-    public void validateAndLogin(String email, String password) {
+    public boolean validateLogin(String email, String password) {
         if(email.isEmpty()){
             emailError.setValue("please enter an email ");
-            return;
+            return false;
         }
         else if(!isEmailValid(email)){
             emailError.setValue("email Not Valid");
-            return;
+            return false;
         }
         else if (password.isEmpty()){
             passwordError.setValue("please enter a password ");
-            return;
+            return false;
         }
 
         else{
-            serverLogin(email,password);
+            return true;
         }
     }
 
-    public void loginAsGuest(){
-        status.setValue(Resource.<Boolean>loading(null));
-        if(requestToken!=null&&!requestToken.isEmpty()){
-            userRepository.createGuestSession()
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new SingleObserver<Response<CreateGuestSessionResponse>>() {
-                        @Override
-                        public void onSubscribe(Disposable d) {
-
-                        }
-
-                        @Override
-                        public void onSuccess(Response<CreateGuestSessionResponse> createGuestSessionResponseResponse) {
-                            if(createGuestSessionResponseResponse.isSuccessful()){
-                                CreateGuestSessionResponse createGuestSessionResponse = createGuestSessionResponseResponse.body();
-                                if(createGuestSessionResponse.getSuccess()) {
-                                    userRepository.saveSessionToken(createGuestSessionResponse.getGuestSessionId());
-                                    saveLocalUser(createGuestSessionResponse.getGuestSessionId(),createGuestSessionResponse.getExpiresAt(),true);
-                                    status.setValue(Resource.<Boolean>success(null));
-                                }
-                            }
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-                            status.setValue(Resource.<Boolean>error(e.getLocalizedMessage(),null));
-                        }
-                    });
-        }
-        else{
-            Timber.d("hrere? "+requestToken);
-        }
+    public LiveData<Resource<String>> loginUser(String email, String password){
+        return userRepository.serverLoginUser(email,password,requestToken);
     }
 
-    private void saveLocalUser(String guestSessionId, String expiresAt,boolean isGuest) {
-        User user = new User();
-        user.setSessionKey(guestSessionId);
-        user.setSessionKeyExpireDate(expiresAt);
-        if(isGuest)
-            user.setUsername("Guest");
-        userRepository.saveUser(user);
-    }
-
-    private void serverLogin(String email, String password) {
-        status.setValue(Resource.<Boolean>loading(null));
-        if(requestToken!=null &&!requestToken.isEmpty()){
-            userRepository.serverLoginUser(email,password,requestToken)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new SingleObserver<Response<LoginResponse>>() {
-                        @Override
-                        public void onSubscribe(Disposable d) {
-
-                        }
-
-                        @Override
-                        public void onSuccess(Response<LoginResponse> loginResponseResponse) {
-                            if(loginResponseResponse.isSuccessful()){
-                                LoginResponse loginResponse = loginResponseResponse.body();
-                                if(loginResponse.getSuccess()) {
-                                    createNewUserSession(loginResponse.getRequestToken());
-                                }
-                            }
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-                            status.setValue(Resource.<Boolean>error(e.getLocalizedMessage(),null));
-                        }
-                    });
-        }
-    }
-
-    private void createNewUserSession(String requestToken) {
-        userRepository.createUserSession(requestToken)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new SingleObserver<Response<CreateUserSessionResponse>>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-
-                    }
-
-                    @Override
-                    public void onSuccess(Response<CreateUserSessionResponse> createUserSessionResponseResponse) {
-                        if(createUserSessionResponseResponse.isSuccessful()){
-                            CreateUserSessionResponse createUserSessionResponse = createUserSessionResponseResponse.body();
-                            if(createUserSessionResponse.getSuccess()) {
-                                userRepository.saveSessionToken(createUserSessionResponse.getSessionId());
-                                saveLocalUser(createUserSessionResponse.getSessionId(),null,false);
-                                status.setValue(Resource.<Boolean>success(null));
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        status.setValue(Resource.<Boolean>error(e.getLocalizedMessage(),null));
-                    }
-                });
+    public LiveData<Resource<String>> loginAsGuest(){
+        return userRepository.createGuestSession();
     }
 
     private boolean isEmailValid(String email) {
         return true;
+    }
+
+    public LiveData<Resource<String>> getGetNewTokenLiveData() {
+        return getNewTokenLiveData;
     }
 }
