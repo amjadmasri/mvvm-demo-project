@@ -14,6 +14,7 @@ import androidx.navigation.Navigation;
 import androidx.paging.PagedList;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,6 +33,7 @@ import com.classic.mvvmapplication.utilities.ViewModelProviderFactory;
 import com.classic.mvvmapplication.viewModels.MovieViewModel;
 
 import javax.inject.Inject;
+import javax.inject.Provider;
 
 import io.reactivex.disposables.CompositeDisposable;
 import timber.log.Timber;
@@ -44,7 +46,7 @@ public class PopularMoviesFragment extends BaseFragment<MovieViewModel, Fragment
     @Inject
     MovieAdapter movieAdapter;
     @Inject
-    GridLayoutManager gridLayoutManager;
+    Provider<GridLayoutManager> gridLayoutManager;
     @Inject
     LinearLayoutManager linearLayoutManager;
     @Inject
@@ -113,7 +115,7 @@ public class PopularMoviesFragment extends BaseFragment<MovieViewModel, Fragment
 
         navController = Navigation.findNavController(view);
 
-        dataBinding.popularMovieRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(),2));
+        dataBinding.popularMovieRecyclerView.setLayoutManager(gridLayoutManager.get());
         dataBinding.popularMovieRecyclerView.setAdapter(moviePagedAdapter);
         dataBinding.popularMovieRecyclerView.addItemDecoration(recyclerViewItemDecorator);
 
