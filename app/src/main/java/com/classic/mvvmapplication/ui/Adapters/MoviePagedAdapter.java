@@ -14,6 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.classic.mvvmapplication.R;
 import com.classic.mvvmapplication.data.models.local.Movie;
+import com.classic.mvvmapplication.databinding.MovieListItemBinding;
+import com.classic.mvvmapplication.ui.bindingModels.MovieBindingModel;
 import com.classic.mvvmapplication.utilities.AppConstants;
 
 import java.util.ArrayList;
@@ -25,6 +27,7 @@ public class MoviePagedAdapter  extends PagedListAdapter<Movie,MoviePagedAdapter
 
 
     private ArrayList<Movie> dataset;
+    private MovieAdapter.MovieAdapterListener mListener;
 
     public MoviePagedAdapter(@NonNull DiffUtil.ItemCallback<Movie> diffCallback) {
         super(diffCallback);
@@ -44,12 +47,10 @@ public class MoviePagedAdapter  extends PagedListAdapter<Movie,MoviePagedAdapter
     @NonNull
     @Override
     public MoviePagedAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v =  LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.movie_list_item, parent, false);
+        MovieListItemBinding movieListItemBinding = MovieListItemBinding.inflate(LayoutInflater.from(parent.getContext()),
+                parent, false);
+        return new MoviePagedAdapter.ViewHolder(movieListItemBinding,mListener);
 
-        ViewHolder vh = new ViewHolder(v);
-
-        return vh;
     }
 
     @Override
@@ -74,27 +75,45 @@ public class MoviePagedAdapter  extends PagedListAdapter<Movie,MoviePagedAdapter
         dataset.clear();
     }
 
+    public void setListener(MovieAdapter.MovieAdapterListener listener) {
+        this.mListener = listener;
+    }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        public final ImageView moviePoster;
-        public final TextView movieTitle;
+    public interface MovieAdapterListener {
+
+        void onMovieClick();
+    }
 
 
 
-        public ViewHolder(View view){
-            super(view);
+    public static class ViewHolder extends RecyclerView.ViewHolder implements MovieBindingModel.MovieItemListener{
+        private MovieListItemBinding movieListItemBinding;
+        private MovieBindingModel movieBindingModel;
+        private MovieAdapter.MovieAdapterListener movieAdapterListener;
 
-            moviePoster =(ImageView)view.findViewById(R.id.item_poster_post);
-            movieTitle=(TextView) view.findViewById(R.id.item_poster_title);
+
+
+
+        public ViewHolder(MovieListItemBinding movieListItemBinding, MovieAdapter.MovieAdapterListener movieAdapterListener){
+            super(movieListItemBinding.getRoot());
+
+            this.movieAdapterListener=movieAdapterListener;
+            this.movieListItemBinding = movieListItemBinding;
         }
 
 
         void bindModel(int position, Movie movie)
         {
-            Timber.d("bindModel "+movie.getOriginalTitle());
-            movieTitle.setText(movie.getOriginalTitle());
-            Glide.with(moviePoster.getContext())
-                    .load(AppConstants.BASE_POSTER_PATH+movie.getPosterPath()).into(moviePoster);
+            movieBindingModel = new MovieBindingModel(movie, this);
+            movieListItemBinding.setMovieBindingModel(movieBindingModel);
+
+            movieListItemBinding.executePendingBindings();
+        }
+
+        @Override
+        public void onItemClick(int movieId) {
+            Timber.d("on Item clicked ");
+            movieAdapterListener.onMovieClick();
         }
     }
 }

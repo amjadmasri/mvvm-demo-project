@@ -34,6 +34,7 @@ import com.classic.mvvmapplication.viewModels.MovieViewModel;
 import javax.inject.Inject;
 
 import io.reactivex.disposables.CompositeDisposable;
+import timber.log.Timber;
 
 
 public class PopularMoviesFragment extends BaseFragment<MovieViewModel, FragmentPopularMoviesBinding> {
@@ -111,6 +112,17 @@ public class PopularMoviesFragment extends BaseFragment<MovieViewModel, Fragment
         super.onViewCreated(view, savedInstanceState);
 
         navController = Navigation.findNavController(view);
+
+        dataBinding.popularMovieRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(),2));
+        dataBinding.popularMovieRecyclerView.setAdapter(moviePagedAdapter);
+        dataBinding.popularMovieRecyclerView.addItemDecoration(recyclerViewItemDecorator);
+
+        moviePagedAdapter.setListener(new MovieAdapter.MovieAdapterListener() {
+            @Override
+            public void onMovieClick() {
+                navController.navigate(R.id.action_popular_movies_to_movieDetailsFragment);
+            }
+        });
     }
 
     @Override
@@ -119,9 +131,7 @@ public class PopularMoviesFragment extends BaseFragment<MovieViewModel, Fragment
 
         movieViewModel= ViewModelProviders.of(requireActivity(),viewModelProviderFactory).get(MovieViewModel.class);
 
-        dataBinding.popularMovieRecyclerView.setLayoutManager(gridLayoutManager);
-        dataBinding.popularMovieRecyclerView.setAdapter(moviePagedAdapter);
-        dataBinding.popularMovieRecyclerView.addItemDecoration(recyclerViewItemDecorator);
+
 
         movieViewModel.getPagedMovieList().observe(this, new Observer<Resource<PagedList<Movie>>>() {
             @Override
@@ -136,12 +146,6 @@ public class PopularMoviesFragment extends BaseFragment<MovieViewModel, Fragment
         return BR.popularMoviesViewModel;
     }
 
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
 
     public interface OnFragmentInteractionListener {
 

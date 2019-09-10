@@ -6,6 +6,7 @@ import androidx.room.Entity;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
+import com.classic.mvvmapplication.ui.bindingModels.MovieBindingModel;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -13,7 +14,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity(tableName = "movies", indices = {@Index(value = "id", unique = true)})
-public class Movie {
+public class Movie{
 
     @SerializedName("popularity")
     @Expose

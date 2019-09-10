@@ -1,44 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="290dp"
-    android:foreground="?attr/selectableItemBackground"
-    android:orientation="vertical"
-    tools:background="@color/background">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <ImageView
-        android:id="@+id/item_poster_post"
-        android:layout_width="match_parent"
-        android:layout_height="240dp"
-        android:scaleType="fitXY"
-        tools:src="@drawable/ic_star_white_24dp" />
+    <data>
+        <variable
+            name="movieBindingModel"
+            type="com.classic.mvvmapplication.ui.bindingModels.MovieBindingModel" />
+    </data>
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_alignParentBottom="true"
+        android:layout_height="290dp"
+        android:foreground="?attr/selectableItemBackground"
         android:orientation="vertical"
-        tools:background="@color/colorPrimaryDark">
+        android:onClick="@{() -> movieBindingModel.onItemClick()}"
+        tools:background="@color/background">
 
-        <LinearLayout
-            android:id="@+id/item_poster_palette"
+        <ImageView
+            android:id="@+id/item_poster_post"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:alpha="0.7"
-            android:orientation="vertical" />
+            android:layout_height="240dp"
+            android:scaleType="fitXY"
+            app:imageUrl="@{movieBindingModel.moviePosterPath}"
+            tools:src="@drawable/ic_star_white_24dp" />
 
-        <TextView
-            android:id="@+id/item_poster_title"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:padding="3dp"
-            android:textColor="@color/white"
-            android:background="@color/gray"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            tools:text="title" />
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:orientation="vertical"
+            tools:background="@color/colorPrimaryDark">
+
+            <LinearLayout
+                android:id="@+id/item_poster_palette"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:alpha="0.7"
+                android:orientation="vertical" />
+
+            <TextView
+                android:id="@+id/item_poster_title"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:padding="3dp"
+                android:textColor="@color/white"
+                android:background="@color/gray"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                tools:text="@{movieBindingModel.movieOriginalName}" />
+        </RelativeLayout>
+
     </RelativeLayout>
-
-</RelativeLayout>
+</layout>

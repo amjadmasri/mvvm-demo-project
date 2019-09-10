@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.classic.mvvmapplication.data.models.local.Movie;
 import com.classic.mvvmapplication.ui.Adapters.MovieAdapter;
 import com.classic.mvvmapplication.ui.Adapters.MoviePagedAdapter;
+import com.classic.mvvmapplication.ui.fragments.PopularMoviesFragment;
 import com.classic.mvvmapplication.ui.main.MainActivity;
 import com.classic.mvvmapplication.utilities.MovieDiffCallBacks;
 import com.classic.mvvmapplication.utilities.RecyclerViewItemDecorator;
@@ -34,8 +35,8 @@ public class MovieAdapterModule {
     }
 
     @Provides
-    GridLayoutManager provideGridLayoutManager(MainActivity mainActivity) {
-        return new GridLayoutManager(mainActivity,2);
+    GridLayoutManager provideGridLayoutManager(PopularMoviesFragment popularMoviesFragment) {
+        return new GridLayoutManager(popularMoviesFragment.getActivity(),2);
     }
 
     @Provides
