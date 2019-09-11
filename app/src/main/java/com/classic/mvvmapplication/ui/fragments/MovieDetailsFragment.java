@@ -1,5 +1,6 @@
 package com.classic.mvvmapplication.ui.fragments;
 
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.content.Context;
@@ -15,14 +16,22 @@ import android.view.ViewGroup;
 
 import com.classic.mvvmapplication.BR;
 import com.classic.mvvmapplication.R;
+import com.classic.mvvmapplication.data.models.local.Movie;
 import com.classic.mvvmapplication.databinding.MovieDetailsFragmentBinding;
 import com.classic.mvvmapplication.ui.BaseFragment;
+import com.classic.mvvmapplication.ui.bindingModels.MovieDetailsBindingModel;
+import com.classic.mvvmapplication.utilities.Resource;
+import com.classic.mvvmapplication.utilities.ViewModelProviderFactory;
 import com.classic.mvvmapplication.viewModels.MovieDetailsViewModel;
 import com.classic.mvvmapplication.viewModels.MovieViewModel;
+
+import javax.inject.Inject;
 
 public class MovieDetailsFragment extends BaseFragment<MovieDetailsViewModel, MovieDetailsFragmentBinding> {
 
     private MovieDetailsViewModel mViewModel;
+    @Inject
+    ViewModelProviderFactory viewModelProviderFactory;
 
     public static MovieDetailsFragment newInstance() {
         return new MovieDetailsFragment();
@@ -51,8 +60,19 @@ public class MovieDetailsFragment extends BaseFragment<MovieDetailsViewModel, Mo
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = ViewModelProviders.of(this).get(MovieDetailsViewModel.class);
-        // TODO: Use the ViewModel
+        mViewModel = ViewModelProviders.of(this,viewModelProviderFactory).get(MovieDetailsViewModel.class);
+
+        int movieId = MovieDetailsFragmentArgs.fromBundle(getArguments()).getMovieId();
+
+        mViewModel.getMovieDetails(movieId).observe(requireActivity(), new Observer<Resource<Movie>>() {
+            @Override
+            public void onChanged(Resource<Movie> movieResource) {
+                if(movieResource.status.equals(Resource.Status.SUCCESS)){
+                    MovieDetailsBindingModel movieDetailsBindingModel = new MovieDetailsBindingModel(movieResource.data);
+                    dataBinding.setMovieBindingItem(movieDetailsBindingModel);
+                }
+            }
+        });
     }
 
 }

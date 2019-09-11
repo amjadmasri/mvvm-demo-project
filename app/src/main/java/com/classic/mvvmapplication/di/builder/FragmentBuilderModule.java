@@ -4,6 +4,7 @@ import com.classic.mvvmapplication.SplashFragment;
 import com.classic.mvvmapplication.di.modules.MovieAdapterModule;
 import com.classic.mvvmapplication.ui.Adapters.MovieAdapter;
 import com.classic.mvvmapplication.ui.fragments.LoginFragment;
+import com.classic.mvvmapplication.ui.fragments.MovieDetailsFragment;
 import com.classic.mvvmapplication.ui.fragments.PopularMoviesFragment;
 import com.classic.mvvmapplication.ui.fragments.SettingsFragment;
 
@@ -25,5 +26,8 @@ public abstract class FragmentBuilderModule {
 
     @ContributesAndroidInjector
     abstract SettingsFragment contributeSettingsFragment();
+
+    @ContributesAndroidInjector
+    abstract MovieDetailsFragment contributeMovieDetailsFragment();
 
 }

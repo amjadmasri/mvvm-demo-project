@@ -59,8 +59,7 @@ public class PopularMoviesFragment extends BaseFragment<MovieViewModel, Fragment
     private MovieViewModel movieViewModel;
 
     private OnFragmentInteractionListener mListener;
-    private NavController navController
-            ;
+    private NavController navController;
 
     public PopularMoviesFragment() {
         // Required empty public constructor
@@ -121,8 +120,9 @@ public class PopularMoviesFragment extends BaseFragment<MovieViewModel, Fragment
 
         moviePagedAdapter.setListener(new MovieAdapter.MovieAdapterListener() {
             @Override
-            public void onMovieClick() {
-                navController.navigate(R.id.action_popular_movies_to_movieDetailsFragment);
+            public void onMovieClick(int movieId) {
+
+                navController.navigate(PopularMoviesFragmentDirections.actionPopularMoviesToMovieDetailsFragment(movieId));
             }
         });
     }

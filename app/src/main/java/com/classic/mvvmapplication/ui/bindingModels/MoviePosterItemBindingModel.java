@@ -4,7 +4,7 @@ import androidx.databinding.ObservableField;
 
 import com.classic.mvvmapplication.data.models.local.Movie;
 
-public class MovieBindingModel {
+public class MoviePosterItemBindingModel {
 
     public final ObservableField<String> moviePosterPath;
 
@@ -14,7 +14,7 @@ public class MovieBindingModel {
 
     private final Movie movie;
 
-    public MovieBindingModel( Movie movie, MovieItemListener movieItemListener) {
+    public MoviePosterItemBindingModel(Movie movie, MovieItemListener movieItemListener) {
         this.moviePosterPath = new ObservableField<>(movie.getPosterPath());
         this.movieOriginalName = new ObservableField<>(movie.getOriginalTitle());
         this.movieItemListener = movieItemListener;

@@ -14,4 +14,10 @@ public class BindingUtility {
         Context context = imageView.getContext();
         Glide.with(context).load(AppConstants.BASE_POSTER_PATH+url).into(imageView);
     }
+
+    @BindingAdapter("backdropImageUrl")
+    public static void setBackdropImageUrl(ImageView imageView,String url){
+        Context context = imageView.getContext();
+        Glide.with(context).load(AppConstants.BASE_BACKDROP_PATH+url).into(imageView);
+    }
 }
