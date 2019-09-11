@@ -1,16 +1,14 @@
 package com.classic.mvvmapplication.ui.Adapters;
 
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.classic.mvvmapplication.R;
 import com.classic.mvvmapplication.data.models.local.Movie;
 import com.classic.mvvmapplication.databinding.MovieListItemBinding;
-import com.classic.mvvmapplication.ui.bindingModels.MovieBindingModel;
+import com.classic.mvvmapplication.ui.bindingModels.MoviePosterItemBindingModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,14 +67,14 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
 
     public interface MovieAdapterListener {
 
-        void onMovieClick();
+        void onMovieClick(int MovieId);
     }
 
 
-    public static class ViewHolder extends RecyclerView.ViewHolder implements MovieBindingModel.MovieItemListener{
+    public static class ViewHolder extends RecyclerView.ViewHolder implements MoviePosterItemBindingModel.MovieItemListener{
 
         private MovieListItemBinding movieListItemBinding;
-        private MovieBindingModel movieBindingModel;
+        private MoviePosterItemBindingModel moviePosterItemBindingModel;
         private MovieAdapterListener movieAdapterListener;
 
 
@@ -90,8 +88,8 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
 
         void bindModel(int position,Movie movie)
         {
-            movieBindingModel = new MovieBindingModel(movie, this);
-            movieListItemBinding.setMovieBindingModel(movieBindingModel);
+            moviePosterItemBindingModel = new MoviePosterItemBindingModel(movie, this);
+            movieListItemBinding.setMoviePosterItemBindingModel(moviePosterItemBindingModel);
 
             movieListItemBinding.executePendingBindings();
         }
@@ -99,7 +97,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
         @Override
         public void onItemClick(int movieId) {
             Timber.d("on Item clicked ");
-            movieAdapterListener.onMovieClick();
+            movieAdapterListener.onMovieClick(movieId);
         }
     }
 }
