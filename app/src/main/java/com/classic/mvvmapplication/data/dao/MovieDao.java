@@ -28,5 +28,6 @@ public interface MovieDao {
     @Query("SELECT * from movies order by popularity DESC")
     DataSource.Factory<Integer, Movie> loadPagedMovies();
 
-
+    @Query("SELECT * from movies where id=:movieId")
+    LiveData<Movie> getMovieById(int movieId);
 }

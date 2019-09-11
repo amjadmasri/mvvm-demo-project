@@ -14,6 +14,8 @@ public interface MovieDbHelper {
 
     LiveData<List<Movie>> getMovieList();
 
+    LiveData<Movie> getMovieById(int movieId);
+
     Completable insertMovie(Movie movie);
 
     Completable insertMovieList(List<Movie> movieList);

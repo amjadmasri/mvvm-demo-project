@@ -57,6 +57,32 @@ public class Movie{
     @Expose
     private String releaseDate;
 
+    @SerializedName("budget")
+    @Expose
+    private Integer budget;
+
+    @SerializedName("genres")
+    @Expose
+    private List<Genre> genres = null;
+
+    @SerializedName("imdb_id")
+    @Expose
+    private String imdbId;
+
+    @SerializedName("revenue")
+    @Expose
+    private Integer revenue;
+
+    @SerializedName("status")
+    @Expose
+    private String status;
+
+    @SerializedName("tagline")
+    @Expose
+    private String tagline;
+
+    private boolean hasDetails=false;
+
     public Double getPopularity() {
         return popularity;
     }
@@ -184,5 +210,61 @@ public class Movie{
     @Override
     public int hashCode() {
         return Objects.hash(getPopularity(), getVoteCount(), getVideo(), getPosterPath(), getId(), getAdult(), getBackdropPath(), getOriginalLanguage(), getOriginalTitle(), getTitle(), getVoteAverage(), getOverview(), getReleaseDate());
+    }
+
+    public Integer getBudget() {
+        return budget;
+    }
+
+    public void setBudget(Integer budget) {
+        this.budget = budget;
+    }
+
+    public List<Genre> getGenres() {
+        return genres;
+    }
+
+    public void setGenres(List<Genre> genres) {
+        this.genres = genres;
+    }
+
+    public String getImdbId() {
+        return imdbId;
+    }
+
+    public void setImdbId(String imdbId) {
+        this.imdbId = imdbId;
+    }
+
+    public Integer getRevenue() {
+        return revenue;
+    }
+
+    public void setRevenue(Integer revenue) {
+        this.revenue = revenue;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getTagline() {
+        return tagline;
+    }
+
+    public void setTagline(String tagline) {
+        this.tagline = tagline;
+    }
+
+    public boolean isHasDetails() {
+        return hasDetails;
+    }
+
+    public void setHasDetails(boolean hasDetails) {
+        this.hasDetails = hasDetails;
     }
 }

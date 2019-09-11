@@ -14,5 +14,6 @@ public interface MovieApiHelper {
 
     Single<Response<MoviesListResponse>> getRemotePopularMovieList(int page);
 
+    Single<Response<Movie>> getMovieDetails(int movieId);
 
 }

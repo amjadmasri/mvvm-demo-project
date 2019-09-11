@@ -52,4 +52,9 @@ public class AppMovieDbHelper implements MovieDbHelper {
     public DataSource.Factory<Integer, Movie> getPagedPopularMovies() {
         return appDatabase.getMovieDao().loadPagedMovies();
     }
+
+    @Override
+    public LiveData<Movie> getMovieById(int movieId) {
+        return appDatabase.getMovieDao().getMovieById(movieId);
+    }
 }

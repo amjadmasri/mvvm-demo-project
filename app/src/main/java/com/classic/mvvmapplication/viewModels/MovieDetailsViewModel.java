@@ -1,7 +1,7 @@
-package com.classic.mvvmapplication.ui.fragments;
+package com.classic.mvvmapplication.viewModels;
 
 import androidx.lifecycle.ViewModel;
 
 public class MovieDetailsViewModel extends ViewModel {
-    // TODO: Implement the ViewModel
+
 }

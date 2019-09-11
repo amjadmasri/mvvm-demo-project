@@ -162,4 +162,32 @@ public class AppMovieRepository implements MovieRepository {
     public DataSource.Factory<Integer, Movie> getPagedPopularMovies() {
         return mDbHelper.getPagedPopularMovies();
     }
+
+
+    public LiveData<Resource<Movie>> getMovieDetails(final int movieId){
+        return (new NetworkBoundResource<Movie, Movie>(apiErrorMessagesProvider) {
+            @Override
+            protected void saveCallResult(@NonNull Movie item) {
+                item.setHasDetails(true);
+                mDbHelper.insertMovie(item);
+            }
+
+            @NonNull
+            @Override
+            protected LiveData<Movie> loadFromDb() {
+                return mDbHelper.getMovieById(movieId);
+            }
+
+            @NonNull
+            @Override
+            protected Single<Response<Movie>> createCall() {
+                return mApiHelper.getMovieDetails(movieId);
+            }
+
+            @Override
+            protected boolean shouldFetch(@Nullable Movie data) {
+                return data == null || !data.isHasDetails();
+            }
+        }).getAsLiveData();
+    }
 }

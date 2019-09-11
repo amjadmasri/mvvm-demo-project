@@ -26,4 +26,9 @@ public class AppMovieApiHelper implements MovieApiHelper{
     public Single<Response<MoviesListResponse>> getRemotePopularMovieList(int page) {
         return apiService.getPopularMovies(page);
     }
+
+    @Override
+    public Single<Response<Movie>> getMovieDetails(int movieId) {
+        return apiService.getMovieDetails(movieId);
+    }
 }
