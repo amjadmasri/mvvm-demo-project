@@ -1,5 +1,6 @@
 package com.classic.mvvmapplication.data.models.local;
 
+import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
@@ -8,6 +9,7 @@ import androidx.room.PrimaryKey;
 public class VideoLocal {
 
 
+    @NonNull
     @PrimaryKey
     private String id;
 

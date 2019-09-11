@@ -1,6 +1,7 @@
 package com.classic.mvvmapplication.data.dao;
 
 import androidx.lifecycle.LiveData;
+import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
@@ -11,6 +12,7 @@ import java.util.List;
 
 import io.reactivex.Completable;
 
+@Dao
 public interface VideoDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
