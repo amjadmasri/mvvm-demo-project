@@ -1,12 +1,9 @@
 package com.classic.mvvmapplication.data.models.local;
 
-import androidx.annotation.NonNull;
-import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-import com.classic.mvvmapplication.ui.bindingModels.MovieBindingModel;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -49,7 +46,7 @@ public class Movie{
     private String title;
     @SerializedName("vote_average")
     @Expose
-    private Double voteAverage;
+    private Float voteAverage;
     @SerializedName("overview")
     @Expose
     private String overview;
@@ -71,7 +68,7 @@ public class Movie{
 
     @SerializedName("revenue")
     @Expose
-    private Integer revenue;
+    private long revenue;
 
     @SerializedName("status")
     @Expose
@@ -163,11 +160,11 @@ public class Movie{
         this.title = title;
     }
 
-    public Double getVoteAverage() {
+    public Float getVoteAverage() {
         return voteAverage;
     }
 
-    public void setVoteAverage(Double voteAverage) {
+    public void setVoteAverage(Float voteAverage) {
         this.voteAverage = voteAverage;
     }
 
@@ -236,11 +233,11 @@ public class Movie{
         this.imdbId = imdbId;
     }
 
-    public Integer getRevenue() {
+    public long getRevenue() {
         return revenue;
     }
 
-    public void setRevenue(Integer revenue) {
+    public void setRevenue(long revenue) {
         this.revenue = revenue;
     }
 
