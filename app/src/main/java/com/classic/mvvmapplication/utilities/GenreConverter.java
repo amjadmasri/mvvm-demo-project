@@ -8,6 +8,8 @@ import com.google.gson.reflect.TypeToken;
 
 import java.util.List;
 
+import timber.log.Timber;
+
 public class GenreConverter {
 
     @TypeConverter
