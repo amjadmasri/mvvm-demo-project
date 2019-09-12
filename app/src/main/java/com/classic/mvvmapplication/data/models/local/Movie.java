@@ -3,7 +3,9 @@ package com.classic.mvvmapplication.data.models.local;
 import androidx.room.Entity;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
 
+import com.classic.mvvmapplication.utilities.GenreConverter;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -78,7 +80,7 @@ public class Movie{
     @Expose
     private String tagline;
 
-    private boolean hasDetails=false;
+    private boolean hasDetails;
 
     public Double getPopularity() {
         return popularity;
