@@ -16,7 +16,7 @@ public class MoviePosterItemBindingModel {
 
     public MoviePosterItemBindingModel(Movie movie, MovieItemListener movieItemListener) {
         this.moviePosterPath = new ObservableField<>(movie.getPosterPath());
-        this.movieOriginalName = new ObservableField<>(movie.getOriginalTitle());
+        this.movieOriginalName = new ObservableField<>(movie.getTitle());
         this.movieItemListener = movieItemListener;
         this.movie = movie;
     }

@@ -15,6 +15,7 @@ import androidx.paging.PagedList;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.SimpleItemAnimator;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -117,6 +118,7 @@ public class PopularMoviesFragment extends BaseFragment<MovieViewModel, Fragment
         dataBinding.popularMovieRecyclerView.setLayoutManager(gridLayoutManager.get());
         dataBinding.popularMovieRecyclerView.setAdapter(moviePagedAdapter);
         dataBinding.popularMovieRecyclerView.addItemDecoration(recyclerViewItemDecorator);
+        ((SimpleItemAnimator) dataBinding.popularMovieRecyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
 
         moviePagedAdapter.setListener(new MovieAdapter.MovieAdapterListener() {
             @Override
