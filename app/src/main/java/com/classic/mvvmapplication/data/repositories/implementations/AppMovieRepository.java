@@ -24,12 +24,14 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import io.reactivex.Completable;
 import io.reactivex.Scheduler;
 import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableCompletableObserver;
 import io.reactivex.schedulers.Schedulers;
 import retrofit2.Response;
+import timber.log.Timber;
 
 public class AppMovieRepository implements MovieRepository {
 
@@ -52,8 +54,8 @@ public class AppMovieRepository implements MovieRepository {
     public LiveData<Resource<List<Movie>>> getRemotePopularMovieList(final int page) {
         return( new NetworkBoundResource<List<Movie>, MoviesListResponse>(apiErrorMessagesProvider) {
             @Override
-            protected void saveCallResult(@NonNull MoviesListResponse item) {
-                insertMovieList(item.getResults());
+            protected Completable saveCallResult(@NonNull MoviesListResponse item) {
+               return mDbHelper.insertMovieList(item.getResults());
             }
 
             @NonNull
@@ -167,9 +169,8 @@ public class AppMovieRepository implements MovieRepository {
     public LiveData<Resource<Movie>> getMovieDetails(final int movieId){
         return (new NetworkBoundResource<Movie, Movie>(apiErrorMessagesProvider) {
             @Override
-            protected void saveCallResult(@NonNull Movie item) {
-                item.setHasDetails(true);
-                mDbHelper.insertMovie(item);
+            protected Completable saveCallResult(@NonNull Movie item) {
+               return mDbHelper.insertMovie(item);
             }
 
             @NonNull

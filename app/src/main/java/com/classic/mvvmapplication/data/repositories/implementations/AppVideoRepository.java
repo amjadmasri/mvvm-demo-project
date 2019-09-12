@@ -53,13 +53,13 @@ public class AppVideoRepository implements VideoRepository {
     public LiveData<Resource<List<VideoLocal>>> getVideosByMovieId(final int movieId) {
                 return (new NetworkBoundResource<List<VideoLocal>, VideoResponse>(apiErrorMessagesProvider) {
                     @Override
-                    protected void saveCallResult(@NonNull VideoResponse item) {
+                    protected Completable saveCallResult(@NonNull VideoResponse item) {
                         ArrayList<VideoLocal> videoLocalList = new ArrayList<VideoLocal>();
                         for (VideoRemote videoRemote:item.getResults()) {
                             videoLocalList.add(VideoModelMapper.mapRemoteVideoToLocal(videoRemote,"movie",item.getId()));
                         }
 
-                        videoDBHelper.insertVideoList(videoLocalList);
+                        return videoDBHelper.insertVideoList(videoLocalList);
                     }
 
                     @NonNull
@@ -80,13 +80,13 @@ public class AppVideoRepository implements VideoRepository {
     public LiveData<Resource<List<VideoLocal>>> getVideosByTvId(final int tvId) {
         return (new NetworkBoundResource<List<VideoLocal>, VideoResponse>(apiErrorMessagesProvider) {
             @Override
-            protected void saveCallResult(@NonNull VideoResponse item) {
+            protected Completable saveCallResult(@NonNull VideoResponse item) {
                 ArrayList<VideoLocal> videoLocalList = new ArrayList<VideoLocal>();
                 for (VideoRemote videoRemote:item.getResults()) {
                     videoLocalList.add(VideoModelMapper.mapRemoteVideoToLocal(videoRemote,"movie",item.getId()));
                 }
 
-                videoDBHelper.insertVideoList(videoLocalList);
+                return videoDBHelper.insertVideoList(videoLocalList);
             }
 
             @NonNull

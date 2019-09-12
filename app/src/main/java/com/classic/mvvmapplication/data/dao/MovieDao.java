@@ -6,6 +6,7 @@ import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import com.classic.mvvmapplication.data.models.local.Movie;
 
@@ -18,6 +19,9 @@ public interface MovieDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     Completable insert(Movie movie);
+
+    @Update
+    Completable update(Movie movie);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     Completable insertList(List<Movie> movieList);

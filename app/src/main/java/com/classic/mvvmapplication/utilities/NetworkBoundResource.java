@@ -1,4 +1,5 @@
 package com.classic.mvvmapplication.utilities;
+import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 
 
@@ -10,10 +11,13 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.Observer;
 
+import io.reactivex.Completable;
+import io.reactivex.Scheduler;
 import io.reactivex.Single;
 import io.reactivex.SingleObserver;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.observers.DisposableCompletableObserver;
 import io.reactivex.schedulers.Schedulers;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -82,30 +86,33 @@ public abstract class NetworkBoundResource<ResultType, RequestType> {
                 });
     }
 
+    @SuppressLint("WrongThread")
     @MainThread
     private void saveResultAndReInit(final RequestType response) {
-        new AsyncTask<Void, Void, Void>() {
 
-            @Override
-            protected Void doInBackground(Void... voids) {
-                saveCallResult(response);
-                return null;
-            }
-
-            @Override
-            protected void onPostExecute(Void aVoid) {
-                result.addSource(loadFromDb(), new Observer<ResultType>() {
+        saveCallResult(response).
+                subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new DisposableCompletableObserver() {
                     @Override
-                    public void onChanged(ResultType newData) {
-                        result.setValue(Resource.success(newData));
+                    public void onComplete() {
+                        result.addSource(loadFromDb(), new Observer<ResultType>() {
+                            @Override
+                            public void onChanged(ResultType newData) {
+                                result.setValue(Resource.success(newData));
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        result.setValue(Resource.<ResultType>error(e.getMessage(),null));
                     }
                 });
-            }
-        }.execute();
     }
 
     @WorkerThread
-    protected abstract void saveCallResult(@NonNull RequestType item);
+    protected abstract Completable saveCallResult(@NonNull RequestType item);
 
     @MainThread
     protected boolean shouldFetch(@Nullable ResultType data) {

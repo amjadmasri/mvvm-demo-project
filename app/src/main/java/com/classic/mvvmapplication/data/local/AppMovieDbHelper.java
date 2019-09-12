@@ -57,4 +57,10 @@ public class AppMovieDbHelper implements MovieDbHelper {
     public LiveData<Movie> getMovieById(int movieId) {
         return appDatabase.getMovieDao().getMovieById(movieId);
     }
+
+    @Override
+    public Completable updateMovie(Movie movie) {
+        Timber.d(movie.isHasDetails()+"");
+        return appDatabase.getMovieDao().update(movie);
+    }
 }
