@@ -123,6 +123,7 @@ public class LoginFragment extends BaseFragment<LoginViewModel, LoginFragmentBin
             public void onChanged(Resource<String> stringResource) {
                 switch (stringResource.status){
                     case SUCCESS:
+                        setStatusMessage(null);
                         setLoading(View.GONE);
                         dataBinding.btnServerLogin.setClickable(true);
                         break;
