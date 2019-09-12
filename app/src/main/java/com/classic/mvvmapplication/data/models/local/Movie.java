@@ -184,30 +184,6 @@ public class Movie{
         this.releaseDate = releaseDate;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Movie movie = (Movie) o;
-        return Objects.equals(getPopularity(), movie.getPopularity()) &&
-                Objects.equals(getVoteCount(), movie.getVoteCount()) &&
-                Objects.equals(getVideo(), movie.getVideo()) &&
-                getPosterPath().equals(movie.getPosterPath()) &&
-                getId().equals(movie.getId()) &&
-                Objects.equals(getAdult(), movie.getAdult()) &&
-                Objects.equals(getBackdropPath(), movie.getBackdropPath()) &&
-                Objects.equals(getOriginalLanguage(), movie.getOriginalLanguage()) &&
-                getOriginalTitle().equals(movie.getOriginalTitle()) &&
-                Objects.equals(getTitle(), movie.getTitle()) &&
-                Objects.equals(getVoteAverage(), movie.getVoteAverage()) &&
-                Objects.equals(getOverview(), movie.getOverview()) &&
-                Objects.equals(getReleaseDate(), movie.getReleaseDate());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getPopularity(), getVoteCount(), getVideo(), getPosterPath(), getId(), getAdult(), getBackdropPath(), getOriginalLanguage(), getOriginalTitle(), getTitle(), getVoteAverage(), getOverview(), getReleaseDate());
-    }
 
     public Integer getBudget() {
         return budget;
@@ -263,5 +239,38 @@ public class Movie{
 
     public void setHasDetails(boolean hasDetails) {
         this.hasDetails = hasDetails;
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Movie movie = (Movie) o;
+        return getRevenue() == movie.getRevenue() &&
+                isHasDetails() == movie.isHasDetails() &&
+                Objects.equals(getPopularity(), movie.getPopularity()) &&
+                Objects.equals(getVoteCount(), movie.getVoteCount()) &&
+                Objects.equals(getVideo(), movie.getVideo()) &&
+                Objects.equals(getPosterPath(), movie.getPosterPath()) &&
+                Objects.equals(getId(), movie.getId()) &&
+                Objects.equals(getAdult(), movie.getAdult()) &&
+                Objects.equals(getBackdropPath(), movie.getBackdropPath()) &&
+                Objects.equals(getOriginalLanguage(), movie.getOriginalLanguage()) &&
+                Objects.equals(getOriginalTitle(), movie.getOriginalTitle()) &&
+                Objects.equals(getTitle(), movie.getTitle()) &&
+                Objects.equals(getVoteAverage(), movie.getVoteAverage()) &&
+                Objects.equals(getOverview(), movie.getOverview()) &&
+                Objects.equals(getReleaseDate(), movie.getReleaseDate()) &&
+                Objects.equals(getBudget(), movie.getBudget()) &&
+                Objects.equals(getGenres(), movie.getGenres()) &&
+                Objects.equals(getImdbId(), movie.getImdbId()) &&
+                Objects.equals(getStatus(), movie.getStatus()) &&
+                Objects.equals(getTagline(), movie.getTagline());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getPopularity(), getVoteCount(), getVideo(), getPosterPath(), getId(), getAdult(), getBackdropPath(), getOriginalLanguage(), getOriginalTitle(), getTitle(), getVoteAverage(), getOverview(), getReleaseDate(), getBudget(), getGenres(), getImdbId(), getRevenue(), getStatus(), getTagline(), isHasDetails());
     }
 }
