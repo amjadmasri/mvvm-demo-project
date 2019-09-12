@@ -170,6 +170,7 @@ public class AppMovieRepository implements MovieRepository {
         return (new NetworkBoundResource<Movie, Movie>(apiErrorMessagesProvider) {
             @Override
             protected Completable saveCallResult(@NonNull Movie item) {
+                item.setHasDetails(true);
                return mDbHelper.insertMovie(item);
             }
 
