@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.classic.mvvmapplication.BR;
 import com.classic.mvvmapplication.R;
@@ -70,6 +71,18 @@ public class MovieDetailsFragment extends BaseFragment<MovieDetailsViewModel, Mo
                 if(movieResource.status.equals(Resource.Status.SUCCESS)){
                     MovieDetailsBindingModel movieDetailsBindingModel = new MovieDetailsBindingModel(movieResource.data);
                     dataBinding.setMovieBindingItem(movieDetailsBindingModel);
+
+                    dataBinding.detailsLoading.setVisibility(View.GONE);
+                    dataBinding.detailHeader.detailsLayout.setVisibility(View.VISIBLE);
+                }
+                else if (movieResource.status.equals(Resource.Status.LOADING)){
+                    dataBinding.detailsLoading.setVisibility(View.VISIBLE);
+                    dataBinding.detailHeader.detailsLayout.setVisibility(View.INVISIBLE);
+                }
+                else if (movieResource.status.equals(Resource.Status.ERROR)){
+                    dataBinding.detailsLoading.setVisibility(View.GONE);
+                    dataBinding.detailHeader.detailsLayout.setVisibility(View.VISIBLE);
+                    Toast.makeText(getContext(), movieResource.message, Toast.LENGTH_SHORT).show();
                 }
             }
         });

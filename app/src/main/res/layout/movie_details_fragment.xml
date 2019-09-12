@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
 
     <data>
         <variable
@@ -55,52 +56,22 @@
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             android:fillViewport="false">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+            <include
+                android:id="@+id/detail_header"
+                layout="@layout/layout_movie_detail_body"
+                bind:detailsBindingItem="@{movieBindingItem}"/>
 
-                <TextView
-                    android:id="@+id/textView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="@{movieBindingItem.originalTitle}"
-                    android:textColor="@color/white"
-                    android:textSize="18sp"
-                    app:layout_constraintEnd_toStartOf="@+id/guideline5"
-                    app:layout_constraintStart_toStartOf="@+id/guideline4"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <RatingBar
-                    android:id="@+id/detail_header_star"
-                    style="?android:attr/ratingBarStyleSmall"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:rating="@{movieBindingItem.voteAverage}"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/guideline5"
-                    app:layout_constraintStart_toStartOf="@+id/guideline4"
-                    app:layout_constraintTop_toBottomOf="@+id/textView"
-                    tools:rating="3.5f" />
-
-                <androidx.constraintlayout.widget.Guideline
-                    android:id="@+id/guideline4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_constraintGuide_percent="0.25" />
-
-                <androidx.constraintlayout.widget.Guideline
-                    android:id="@+id/guideline5"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_constraintGuide_percent="0.75" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
+
+        <androidx.core.widget.ContentLoadingProgressBar
+            android:id="@+id/details_loading"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="8dp"
+            android:visibility="gone"
+            />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

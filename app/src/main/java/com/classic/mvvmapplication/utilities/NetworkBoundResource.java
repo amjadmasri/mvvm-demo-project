@@ -96,6 +96,7 @@ public abstract class NetworkBoundResource<ResultType, RequestType> {
                 .subscribe(new DisposableCompletableObserver() {
                     @Override
                     public void onComplete() {
+                        Timber.d("insert movie success");
                         result.addSource(loadFromDb(), new Observer<ResultType>() {
                             @Override
                             public void onChanged(ResultType newData) {
@@ -106,6 +107,7 @@ public abstract class NetworkBoundResource<ResultType, RequestType> {
 
                     @Override
                     public void onError(Throwable e) {
+                        Timber.d("insert movie error "+e.getLocalizedMessage());
                         result.setValue(Resource.<ResultType>error(e.getMessage(),null));
                     }
                 });

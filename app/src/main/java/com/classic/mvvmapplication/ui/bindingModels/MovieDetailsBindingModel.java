@@ -6,6 +6,7 @@ import androidx.databinding.Bindable;
 import com.classic.mvvmapplication.BR;
 import com.classic.mvvmapplication.data.models.local.Genre;
 import com.classic.mvvmapplication.data.models.local.Movie;
+import com.classic.mvvmapplication.utilities.CurrencyUtils;
 
 import java.util.List;
 
@@ -18,10 +19,10 @@ public class MovieDetailsBindingModel extends BaseObservable {
     private Float voteAverage;
     private String overview;
     private String releaseDate;
-    private Integer budget;
+    private String budget;
     private List<Genre> genres = null;
     private String imdbId;
-    private long revenue;
+    private String revenue;
     private String status;
     private String tagline;
 
@@ -33,10 +34,10 @@ public class MovieDetailsBindingModel extends BaseObservable {
         voteAverage=(movie.getVoteAverage()/2);
         overview=movie.getOverview();
         releaseDate=movie.getReleaseDate();
-        budget=movie.getBudget();
+        budget= CurrencyUtils.longToCurrencyString(movie.getBudget());
         genres=movie.getGenres();
         imdbId=movie.getImdbId();
-        revenue=movie.getRevenue();
+        revenue=CurrencyUtils.longToCurrencyString(movie.getRevenue());
         status=movie.getStatus();
         tagline=movie.getTagline();
     }
@@ -110,11 +111,11 @@ public class MovieDetailsBindingModel extends BaseObservable {
     }
 
     @Bindable
-    public Integer getBudget() {
+    public String getBudget() {
         return budget;
     }
 
-    public void setBudget(Integer budget) {
+    public void setBudget(String budget) {
         this.budget = budget;
         notifyPropertyChanged(com.classic.mvvmapplication.BR.budget);
     }
@@ -140,11 +141,11 @@ public class MovieDetailsBindingModel extends BaseObservable {
     }
 
     @Bindable
-    public long getRevenue() {
+    public String getRevenue() {
         return revenue;
     }
 
-    public void setRevenue(long revenue) {
+    public void setRevenue(String revenue) {
         this.revenue = revenue;
         notifyPropertyChanged(com.classic.mvvmapplication.BR.revenue);
     }
