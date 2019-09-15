@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.classic.mvvmapplication.BR;
 import com.classic.mvvmapplication.R;
+import com.classic.mvvmapplication.data.models.local.Genre;
 import com.classic.mvvmapplication.data.models.local.Movie;
 import com.classic.mvvmapplication.data.models.local.VideoLocal;
 import com.classic.mvvmapplication.databinding.MovieDetailsFragmentBinding;
@@ -32,10 +33,14 @@ import com.classic.mvvmapplication.utilities.ViewModelProviderFactory;
 import com.classic.mvvmapplication.viewModels.MovieDetailsViewModel;
 import com.classic.mvvmapplication.viewModels.MovieViewModel;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Provider;
+
+import co.lujun.androidtagview.TagView;
 
 public class MovieDetailsFragment extends BaseFragment<MovieDetailsViewModel, MovieDetailsFragmentBinding> {
 
@@ -46,6 +51,7 @@ public class MovieDetailsFragment extends BaseFragment<MovieDetailsViewModel, Mo
     VideoAdapter videoAdapter;
     @Inject
     Provider<LinearLayoutManager> linearLayoutManagerProvider;
+    private HashMap<String, Integer> genreMap;
 
     public static MovieDetailsFragment newInstance() {
         return new MovieDetailsFragment();
@@ -84,6 +90,7 @@ public class MovieDetailsFragment extends BaseFragment<MovieDetailsViewModel, Mo
                 if(movieResource.status.equals(Resource.Status.SUCCESS)){
                     MovieDetailsBindingModel movieDetailsBindingModel = new MovieDetailsBindingModel(movieResource.data);
                     dataBinding.setMovieBindingItem(movieDetailsBindingModel);
+                    setupGenreLayout(movieResource.data.getGenres());
 
                     dataBinding.detailsLoading.setVisibility(View.GONE);
                     dataBinding.detailHeader.detailsLayout.setVisibility(View.VISIBLE);
@@ -106,6 +113,40 @@ public class MovieDetailsFragment extends BaseFragment<MovieDetailsViewModel, Mo
                 if(listResource.status.equals(Resource.Status.SUCCESS)){
                    videoAdapter.setData(listResource.data);
                 }
+            }
+        });
+    }
+
+    private void setupGenreLayout(List<Genre> genres) {
+        genreMap = new HashMap<>();
+        ArrayList<String> genresNames=new ArrayList<>();
+        for (Genre genre:genres) {
+            genreMap.put(genre.getName(),genre.getId());
+            genresNames.add(genre.getName());
+        }
+        dataBinding.detailHeader.tagContainerLayout.setTags(genresNames);
+
+        dataBinding.detailHeader.tagContainerLayout.setOnTagClickListener(new TagView.OnTagClickListener() {
+            @Override
+            public void onTagClick(int position, String text) {
+                //handle to genreView navigation by using the genreMap
+                int id =genreMap.get(text);
+                //navigate by id
+            }
+
+            @Override
+            public void onTagLongClick(int position, String text) {
+
+            }
+
+            @Override
+            public void onSelectedTagDrag(int position, String text) {
+
+            }
+
+            @Override
+            public void onTagCrossClick(int position) {
+
             }
         });
     }
