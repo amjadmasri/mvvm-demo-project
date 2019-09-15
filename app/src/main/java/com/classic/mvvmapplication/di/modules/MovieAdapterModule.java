@@ -1,8 +1,11 @@
 package com.classic.mvvmapplication.di.modules;
 
+import android.content.Context;
+
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.classic.mvvmapplication.R;
 import com.classic.mvvmapplication.data.models.local.Movie;
 import com.classic.mvvmapplication.ui.Adapters.MovieAdapter;
 import com.classic.mvvmapplication.ui.Adapters.MoviePagedAdapter;
@@ -35,8 +38,12 @@ public class MovieAdapterModule {
     }
 
     @Provides
-    GridLayoutManager provideGridLayoutManager(PopularMoviesFragment popularMoviesFragment) {
-        return new GridLayoutManager(popularMoviesFragment.getActivity(),2);
+    GridLayoutManager provideGridLayoutManager(PopularMoviesFragment popularMoviesFragment, Context context) {
+        boolean isPhone = context.getResources().getBoolean(R.bool.is_phone);
+        if(isPhone)
+            return new GridLayoutManager(popularMoviesFragment.getActivity(),2);
+        else
+            return new GridLayoutManager(popularMoviesFragment.getActivity(),3);
     }
 
     @Provides
