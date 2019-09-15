@@ -8,5 +8,7 @@ public final class AppConstants {
     public static final String API_BASE_URL = "https://api.themoviedb.org/3/";
     public static final String BASE_POSTER_PATH = "https://image.tmdb.org/t/p/w342";
     public static final String BASE_BACKDROP_PATH = "https://image.tmdb.org/t/p/w780";
+    public static final String YOUTUBE_THUMBNAIL_URL = "https://img.youtube.com/vi/";
+    public static final String  YOUTUBE_VIDEO_URL = "https://www.youtube.com/watch?v=";
     public static final String PREF_NAME = "mvvmAppPref";
 }

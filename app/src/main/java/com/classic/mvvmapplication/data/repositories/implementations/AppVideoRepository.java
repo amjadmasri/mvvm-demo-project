@@ -1,6 +1,7 @@
 package com.classic.mvvmapplication.data.repositories.implementations;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
 
 import com.classic.mvvmapplication.data.api.VideoApiHelper;
@@ -23,6 +24,7 @@ import javax.inject.Inject;
 import io.reactivex.Completable;
 import io.reactivex.Single;
 import retrofit2.Response;
+import timber.log.Timber;
 
 public class AppVideoRepository implements VideoRepository {
 
@@ -51,9 +53,11 @@ public class AppVideoRepository implements VideoRepository {
 
     @Override
     public LiveData<Resource<List<VideoLocal>>> getVideosByMovieId(final int movieId) {
+        Timber.d("getting movie");
                 return (new NetworkBoundResource<List<VideoLocal>, VideoResponse>(apiErrorMessagesProvider) {
                     @Override
                     protected Completable saveCallResult(@NonNull VideoResponse item) {
+                        Timber.d("saving call results");
                         ArrayList<VideoLocal> videoLocalList = new ArrayList<VideoLocal>();
                         for (VideoRemote videoRemote:item.getResults()) {
                             videoLocalList.add(VideoModelMapper.mapRemoteVideoToLocal(videoRemote,"movie",item.getId()));
@@ -65,13 +69,23 @@ public class AppVideoRepository implements VideoRepository {
                     @NonNull
                     @Override
                     protected LiveData<List<VideoLocal>> loadFromDb() {
+                        Timber.d("getting from db");
                         return videoDBHelper.getVideoListByMovieId(movieId);
                     }
 
                     @NonNull
                     @Override
                     protected Single<Response<VideoResponse>> createCall() {
+                        Timber.d("creating call");
                         return videoApiHelper.getMovieVideos(movieId);
+                    }
+
+                    @Override
+                    protected boolean shouldFetch(@Nullable List<VideoLocal> data) {
+                        if(data!=null)
+                            return data.isEmpty();
+                        else
+                            return false;
                     }
                 }).getAsLiveData();
     }

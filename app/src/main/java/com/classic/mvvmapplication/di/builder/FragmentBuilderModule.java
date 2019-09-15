@@ -2,7 +2,9 @@ package com.classic.mvvmapplication.di.builder;
 
 import com.classic.mvvmapplication.SplashFragment;
 import com.classic.mvvmapplication.di.modules.MovieAdapterModule;
+import com.classic.mvvmapplication.di.modules.VideoAdapterModule;
 import com.classic.mvvmapplication.ui.Adapters.MovieAdapter;
+import com.classic.mvvmapplication.ui.Adapters.VideoAdapter;
 import com.classic.mvvmapplication.ui.fragments.LoginFragment;
 import com.classic.mvvmapplication.ui.fragments.MovieDetailsFragment;
 import com.classic.mvvmapplication.ui.fragments.PopularMoviesFragment;
@@ -27,7 +29,7 @@ public abstract class FragmentBuilderModule {
     @ContributesAndroidInjector
     abstract SettingsFragment contributeSettingsFragment();
 
-    @ContributesAndroidInjector
+    @ContributesAndroidInjector(modules = VideoAdapterModule.class)
     abstract MovieDetailsFragment contributeMovieDetailsFragment();
 
 }
