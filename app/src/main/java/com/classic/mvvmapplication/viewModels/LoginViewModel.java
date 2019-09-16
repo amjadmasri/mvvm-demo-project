@@ -98,6 +98,7 @@ public class LoginViewModel extends BaseViewModel {
     }
 
     public LiveData<Resource<String>> getGetNewTokenLiveData() {
+        Timber.d("in getting new token");
         return getNewTokenLiveData;
     }
 }

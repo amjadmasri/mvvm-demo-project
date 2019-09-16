@@ -10,6 +10,8 @@ import com.classic.mvvmapplication.data.models.local.User;
 
 import java.util.List;
 
+import io.reactivex.Completable;
+
 @Dao
 public interface UserProfileDao {
 
@@ -18,4 +20,7 @@ public interface UserProfileDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertUser(User user);
+
+    @Query("DELETE FROM users WHERE id = :userId")
+    Completable deleteUser(Integer userId);
 }

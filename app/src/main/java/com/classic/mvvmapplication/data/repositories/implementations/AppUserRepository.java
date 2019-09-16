@@ -27,8 +27,10 @@ import io.reactivex.Single;
 import io.reactivex.SingleObserver;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.observers.DisposableCompletableObserver;
 import io.reactivex.schedulers.Schedulers;
 import retrofit2.Response;
+import timber.log.Timber;
 
 public class AppUserRepository implements UserRepository {
 
@@ -229,5 +231,66 @@ public class AppUserRepository implements UserRepository {
         if(isGuest)
             user.setUsername("Guest");
         saveUser(user);
+    }
+
+    @Override
+    public LiveData<Resource<String>> logOutUser() {
+       final MediatorLiveData<Resource<String>> result = new MediatorLiveData<>();
+
+       final LiveData<Resource<String>> stringLiveData =Transformations.map(getUser(), new Function<User, Resource<String>>() {
+           @Override
+           public Resource<String> apply(User input) {
+               if(input==null)
+                   return Resource.error("user Not Found ","error");
+               else
+                   return Resource.success(input.getId().toString());
+           }
+       });
+
+       result.addSource(stringLiveData, new Observer<Resource<String>>() {
+           @Override
+           public void onChanged(Resource<String> stringResource) {
+               switch (stringResource.status){
+                   case ERROR:
+                       Timber.d(stringResource.message+" "+stringResource.data);
+                       result.setValue(Resource.success("logged out"));
+                       break;
+                   case SUCCESS:
+                       result.removeSource(stringLiveData);
+                       result.addSource(removeUser(Integer.parseInt(stringResource.data)), new Observer<Boolean>() {
+                           @Override
+                           public void onChanged(Boolean aBoolean) {
+                               if(aBoolean){
+                                   result.setValue(Resource.success("success"));
+                               }
+                               else{
+                                   result.setValue(Resource.error("failed to delete user","failed"));
+                               }
+                           }
+                       });
+                       break;
+               }
+           }
+       });
+        return result;
+    }
+
+    private LiveData<Boolean> removeUser(int userId) {
+        final MutableLiveData<Boolean> result=new MutableLiveData<>();
+        mDbHelper.deleteUser(userId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new DisposableCompletableObserver() {
+                    @Override
+                    public void onComplete() {
+                        result.setValue(true);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        result.setValue(false);
+                    }
+                });
+        return result;
     }
 }

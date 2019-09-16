@@ -24,4 +24,6 @@ public interface UserRepository extends  DataRepository {
     LiveData<Resource<String>> getRequestToken();
 
     void saveSessionToken(String userSession);
+
+    LiveData<Resource<String>> logOutUser();
 }

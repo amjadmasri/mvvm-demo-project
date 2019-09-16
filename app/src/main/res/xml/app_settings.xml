@@ -7,11 +7,19 @@
         android:entries="@array/Language_keys"
         android:entryValues="@array/Language_values"
         app:key="PREF_KEY_DATA_LANGUAGE"
-        app:title="Choose Data Language" />
+        app:title="Choose Data Language"
+        app:icon="@drawable/ic_language_black_24dp"/>
+
+    <Preference
+        app:key="logout"
+        app:title="Logout"
+        app:summary="logout from mvvm movie app"
+        app:icon="@drawable/ic_power_settings_new_black_24dp"/>
 
     <Preference
         app:key="versionNumber"
         app:title="Version Number "
-        app:summary="mvvm app version 1.0.0"/>
+        app:summary="mvvm app version 1.0.0"
+        app:icon="@drawable/ic_info_black_24dp"/>
 
 </PreferenceScreen>

@@ -76,73 +76,12 @@ public class LoginFragment extends BaseFragment<LoginViewModel, LoginFragmentBin
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        loginViewModel = ViewModelProviders.of(requireActivity(),viewModelProviderFactory).get(LoginViewModel.class);
-
-        dataBinding.registerButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Uri uri = Uri.parse("https://www.themoviedb.org/account/signup");
-                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                startActivity(intent);
-            }
-        });
-
-        dataBinding.btnServerLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String name = dataBinding.etEmail.getText().toString();
-                String password = dataBinding.etPassword.getText().toString();
-               attemptLogin(name,password);
-            }
-        });
-
-        loginViewModel.getEmailError().observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(String s) {
-                dataBinding.etEmail.setError(s);
-            }
-        });
-
-        loginViewModel.getPasswordError().observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(String s) {
-                dataBinding.etPassword.setError(s);
-            }
-        });
-
-        dataBinding.textView2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                loginViewModel.loginAsGuest();
-            }
-        });
 
 
-        loginViewModel.getGetNewTokenLiveData().observe(requireActivity(), new Observer<Resource<String>>() {
-            @Override
-            public void onChanged(Resource<String> stringResource) {
-                switch (stringResource.status){
-                    case SUCCESS:
-                        setStatusMessage(null);
-                        setLoading(View.GONE);
-                        dataBinding.btnServerLogin.setClickable(true);
-                        break;
-                    case ERROR:
-                        setStatusMessage(stringResource.data);
-                        setLoading(View.GONE);
-                        Toast.makeText(requireContext(), stringResource.message, Toast.LENGTH_SHORT).show();
-                        dataBinding.btnServerLogin.setClickable(true);
-                        break;
-                    case LOADING:
-                        setStatusMessage(stringResource.data);
-                        setLoading(View.VISIBLE);
-                        dataBinding.btnServerLogin.setClickable(false);
-                        break;
-                }
-            }
-        });
-
+        loginViewModel = ViewModelProviders.of(this,viewModelProviderFactory).get(LoginViewModel.class);
     }
+
+
 
     private void attemptLogin(String name, String password) {
         if(loginViewModel.validateLogin(name,password)){
@@ -194,6 +133,80 @@ public class LoginFragment extends BaseFragment<LoginViewModel, LoginFragmentBin
         super.onViewCreated(view, savedInstanceState);
 
         navController = Navigation.findNavController(view);
+
+
+
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        mListener.modifyToolbarAndNavigationVisibilty(false);
+
+        dataBinding.registerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Uri uri = Uri.parse("https://www.themoviedb.org/account/signup");
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                startActivity(intent);
+            }
+        });
+
+        dataBinding.btnServerLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String name = dataBinding.etEmail.getText().toString();
+                String password = dataBinding.etPassword.getText().toString();
+                attemptLogin(name,password);
+            }
+        });
+
+        loginViewModel.getEmailError().observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                dataBinding.etEmail.setError(s);
+            }
+        });
+
+        loginViewModel.getPasswordError().observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                dataBinding.etPassword.setError(s);
+            }
+        });
+
+        dataBinding.textView2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loginViewModel.loginAsGuest();
+            }
+        });
+
+
+        loginViewModel.getGetNewTokenLiveData().observe(this, new Observer<Resource<String>>() {
+            @Override
+            public void onChanged(Resource<String> stringResource) {
+                switch (stringResource.status){
+                    case SUCCESS:
+                        setStatusMessage(null);
+                        setLoading(View.GONE);
+                        dataBinding.btnServerLogin.setClickable(true);
+                        break;
+                    case ERROR:
+                        setStatusMessage(stringResource.data);
+                        setLoading(View.GONE);
+                        Toast.makeText(requireContext(), stringResource.message, Toast.LENGTH_SHORT).show();
+                        dataBinding.btnServerLogin.setClickable(true);
+                        break;
+                    case LOADING:
+                        setStatusMessage(stringResource.data);
+                        setLoading(View.VISIBLE);
+                        dataBinding.btnServerLogin.setClickable(false);
+                        break;
+                }
+            }
+        });
     }
 
     public interface OnFragmentInteractionListener {

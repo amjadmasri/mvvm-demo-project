@@ -8,6 +8,7 @@ import androidx.lifecycle.Transformations;
 import com.classic.mvvmapplication.data.models.local.User;
 import com.classic.mvvmapplication.data.repositories.interfaces.DataRepository;
 import com.classic.mvvmapplication.data.repositories.interfaces.UserRepository;
+import com.classic.mvvmapplication.utilities.Resource;
 
 import javax.inject.Inject;
 
@@ -38,6 +39,11 @@ public class UserViewModel extends BaseViewModel {
                 }
             }
         });
+    }
+
+    public LiveData<Resource<String>> logoutUser(){
+        return userRepository.logOutUser();
+
     }
 
 }
