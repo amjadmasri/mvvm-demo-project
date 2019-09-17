@@ -10,6 +10,7 @@
     </data>
 
     <RelativeLayout
+        android:id="@+id/movie_layout"
         android:layout_width="match_parent"
         android:layout_height="290dp"
         android:foreground="?attr/selectableItemBackground"

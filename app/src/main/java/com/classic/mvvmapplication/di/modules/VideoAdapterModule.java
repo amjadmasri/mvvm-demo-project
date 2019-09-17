@@ -8,6 +8,8 @@ import com.classic.mvvmapplication.ui.main.MainActivity;
 
 import java.util.ArrayList;
 
+import javax.inject.Named;
+
 import dagger.Module;
 import dagger.Provides;
 
@@ -20,6 +22,7 @@ public class VideoAdapterModule {
     }
 
     @Provides
+    @Named("video_horizontal_manager")
     LinearLayoutManager provideLinearLayoutManager(MainActivity mainActivity) {
         return new LinearLayoutManager(mainActivity, LinearLayoutManager.HORIZONTAL, false);
     }

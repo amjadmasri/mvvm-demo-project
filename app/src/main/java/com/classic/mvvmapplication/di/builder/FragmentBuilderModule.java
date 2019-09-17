@@ -30,7 +30,7 @@ public abstract class FragmentBuilderModule {
     @ContributesAndroidInjector
     abstract SettingsFragment contributeSettingsFragment();
 
-    @ContributesAndroidInjector(modules = {VideoAdapterModule.class, ReviewAdapterModule.class})
+    @ContributesAndroidInjector(modules = {VideoAdapterModule.class, ReviewAdapterModule.class,MovieAdapterModule.class})
     abstract MovieDetailsFragment contributeMovieDetailsFragment();
 
 }

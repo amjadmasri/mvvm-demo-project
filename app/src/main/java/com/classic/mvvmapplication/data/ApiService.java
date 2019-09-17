@@ -53,4 +53,6 @@ public interface ApiService {
     @GET("movie/{movie_id}/reviews")
     Single<Response<ReviewListResponse>> getMovieReviews(@Path("movie_id")int movieId,@Query("page") int page);
 
+    @GET("movie/{movie_id}/similar")
+    Single<Response<MoviesListResponse>> getSimilarMoviesById(@Path("movie_id") int movieId);
 }

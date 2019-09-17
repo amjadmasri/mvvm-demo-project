@@ -16,4 +16,6 @@ public interface MovieApiHelper {
 
     Single<Response<Movie>> getMovieDetails(int movieId);
 
+    Single<Response<MoviesListResponse>> getSimilarMoviesById(int movieId);
+
 }

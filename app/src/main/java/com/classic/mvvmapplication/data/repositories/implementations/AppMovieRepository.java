@@ -27,7 +27,9 @@ import javax.inject.Inject;
 import io.reactivex.Completable;
 import io.reactivex.Scheduler;
 import io.reactivex.Single;
+import io.reactivex.SingleObserver;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableCompletableObserver;
 import io.reactivex.schedulers.Schedulers;
 import retrofit2.Response;
@@ -191,5 +193,33 @@ public class AppMovieRepository implements MovieRepository {
                 return data == null || !data.isHasDetails();
             }
         }).getAsLiveData();
+    }
+
+    public LiveData<Resource<List<Movie>>> getSimilarMovies(final int movieId){
+        final MutableLiveData<Resource<List<Movie>>> result= new MutableLiveData<>();
+
+        result.setValue(Resource.<List<Movie>>loading(null));
+        mApiHelper.getSimilarMoviesById(movieId)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new SingleObserver<Response<MoviesListResponse>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onSuccess(Response<MoviesListResponse> moviesListResponseResponse) {
+                        MoviesListResponse moviesListResponse = moviesListResponseResponse.body();
+                        result.setValue(Resource.<List<Movie>>success(moviesListResponse.getResults()));
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        result.setValue(Resource.<List<Movie>>error(e.getMessage(),null));
+                    }
+                });
+
+        return result;
     }
 }

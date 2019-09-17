@@ -21,6 +21,7 @@ import com.classic.mvvmapplication.data.models.local.Movie;
 import com.classic.mvvmapplication.data.models.local.ReviewLocal;
 import com.classic.mvvmapplication.data.models.local.VideoLocal;
 import com.classic.mvvmapplication.databinding.MovieDetailsFragmentBinding;
+import com.classic.mvvmapplication.ui.Adapters.MovieAdapter;
 import com.classic.mvvmapplication.ui.Adapters.ReviewAdapter;
 import com.classic.mvvmapplication.ui.Adapters.VideoAdapter;
 import com.classic.mvvmapplication.ui.BaseFragment;
@@ -51,7 +52,11 @@ public class MovieDetailsFragment extends BaseFragment<MovieDetailsViewModel, Mo
     @Inject
     ReviewAdapter reviewAdapter;
     @Inject
+    @Named("video_horizontal_manager")
     Provider<LinearLayoutManager> linearLayoutManagerProvider;
+
+    @Inject
+    MovieAdapter similarMovieAdapter;
 
     @Inject
     @Named("review")
@@ -138,6 +143,19 @@ public class MovieDetailsFragment extends BaseFragment<MovieDetailsViewModel, Mo
                 }
             }
         });
+
+        mViewModel.getSimilarMoviesById(movieId).observe(this, new Observer<Resource<List<Movie>>>() {
+            @Override
+            public void onChanged(Resource<List<Movie>> listResource) {
+                if (listResource.status.equals(Resource.Status.SUCCESS)) {
+                    ArrayList<Movie> movieList = new ArrayList<>(listResource.data);
+                    similarMovieAdapter.setData(movieList);
+                    if(movieList.size()>0) {
+                        dataBinding.similarMovieLabel.setVisibility(View.VISIBLE);
+                    }
+                }
+            }
+        });
     }
 
     private void setupGenreLayout(List<Genre> genres) {
@@ -184,6 +202,11 @@ public class MovieDetailsFragment extends BaseFragment<MovieDetailsViewModel, Mo
         dataBinding.topReviewRecycler.setLayoutManager(reviewLinearLayoutManager.get());
         dataBinding.topReviewRecycler.setAdapter(reviewAdapter);
 
+        similarMovieAdapter.setIsHorizontal(true);
+        dataBinding.similarMoviesRecycler.setLayoutManager(linearLayoutManagerProvider.get());
+        dataBinding.similarMoviesRecycler.setAdapter(similarMovieAdapter);
+
+
         videoAdapter.setVideoItemClick(new VideoAdapter.VideoItemClick() {
             @Override
             public void onVideoClicked(String youtubeURL) {
@@ -196,6 +219,13 @@ public class MovieDetailsFragment extends BaseFragment<MovieDetailsViewModel, Mo
             @Override
             public void onReviewClicked(String youtubeURL) {
                 Timber.d("go to review details ");
+            }
+        });
+
+        similarMovieAdapter.setListener(new MovieAdapter.MovieAdapterListener() {
+            @Override
+            public void onMovieClick(int MovieId) {
+                navController.navigate(MovieDetailsFragmentDirections.actionMovieDetailsFragmentSelf(MovieId));
             }
         });
     }

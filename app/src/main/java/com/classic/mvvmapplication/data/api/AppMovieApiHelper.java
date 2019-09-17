@@ -31,4 +31,9 @@ public class AppMovieApiHelper implements MovieApiHelper{
     public Single<Response<Movie>> getMovieDetails(int movieId) {
         return apiService.getMovieDetails(movieId);
     }
+
+    @Override
+    public Single<Response<MoviesListResponse>> getSimilarMoviesById(int movieId) {
+        return apiService.getSimilarMoviesById(movieId);
+    }
 }

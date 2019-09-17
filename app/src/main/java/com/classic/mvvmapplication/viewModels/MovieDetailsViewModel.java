@@ -21,6 +21,7 @@ public class MovieDetailsViewModel extends ViewModel {
     private LiveData<Resource<List<VideoLocal>>> videoList ;
     private LiveData<Resource<Movie>> movieDetails;
     private LiveData<Resource<List<ReviewLocal>>> reviewList ;
+    private LiveData<Resource<List<Movie>>> similarMoviesList;
 
     private AppVideoRepository appVideoRepository;
     private AppMovieRepository appMovieRepository;
@@ -53,5 +54,13 @@ public class MovieDetailsViewModel extends ViewModel {
             reviewList = appReviewRepository.getTwoReviewsByMovieId(movieId);
         }
         return reviewList;
+    }
+
+    public LiveData<Resource<List<Movie>>> getSimilarMoviesById(int movieId){
+        if(similarMoviesList==null) {
+            similarMoviesList = appMovieRepository.getSimilarMovies(movieId);
+        }
+
+        return similarMoviesList;
     }
 }

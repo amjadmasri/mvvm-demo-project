@@ -58,6 +58,7 @@
             android:fillViewport="false">
 
             <LinearLayout
+                android:descendantFocusability="blocksDescendants"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="10dp"
@@ -100,8 +101,25 @@
                     android:paddingBottom="8dp"
                     android:text="Read All Reviews"
                     android:textColor="@color/white"
+                    android:textSize="14sp"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/similar_movie_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="16dp"
+                    android:paddingBottom="8dp"
+                    android:text="Similar Movies"
+                    android:textColor="@color/white"
                     android:textSize="24sp"
                     android:visibility="gone" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/similar_movies_recycler"/>
 
             </LinearLayout>
 
