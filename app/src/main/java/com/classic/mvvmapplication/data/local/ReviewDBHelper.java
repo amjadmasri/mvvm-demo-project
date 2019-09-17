@@ -18,4 +18,6 @@ public interface ReviewDBHelper {
     LiveData<List<ReviewLocal>> getTwoReviewsByMovieId(int movieId);
 
     DataSource.Factory<Integer, ReviewLocal> getPagedMovieReviews(int movieId);
+
+    LiveData<ReviewLocal> getReviewById(String reviewId);
 }

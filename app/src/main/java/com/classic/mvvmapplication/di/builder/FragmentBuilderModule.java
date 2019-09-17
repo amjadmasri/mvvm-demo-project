@@ -9,6 +9,7 @@ import com.classic.mvvmapplication.ui.Adapters.VideoAdapter;
 import com.classic.mvvmapplication.ui.fragments.LoginFragment;
 import com.classic.mvvmapplication.ui.fragments.MovieDetailsFragment;
 import com.classic.mvvmapplication.ui.fragments.PopularMoviesFragment;
+import com.classic.mvvmapplication.ui.fragments.ReviewDetailsFragment;
 import com.classic.mvvmapplication.ui.fragments.SettingsFragment;
 
 import dagger.Module;
@@ -32,5 +33,8 @@ public abstract class FragmentBuilderModule {
 
     @ContributesAndroidInjector(modules = {VideoAdapterModule.class, ReviewAdapterModule.class,MovieAdapterModule.class})
     abstract MovieDetailsFragment contributeMovieDetailsFragment();
+
+    @ContributesAndroidInjector
+    abstract ReviewDetailsFragment contributeReviewDetailsFragment();
 
 }

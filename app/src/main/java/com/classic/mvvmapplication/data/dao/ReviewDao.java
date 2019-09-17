@@ -27,4 +27,7 @@ public interface  ReviewDao {
 
     @Query("SELECT * from review where rel_id=:movieId order by id DESC")
     DataSource.Factory<Integer, ReviewLocal> loadPagedReviews(int movieId);
+
+    @Query("SELECT * from review where id=:reviewId")
+    LiveData<ReviewLocal> getReviewById(String reviewId);
 }

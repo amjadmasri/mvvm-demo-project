@@ -63,6 +63,7 @@ public class MovieDetailsFragment extends BaseFragment<MovieDetailsViewModel, Mo
     Provider<LinearLayoutManager> reviewLinearLayoutManager;
 
     private HashMap<String, Integer> genreMap;
+    private int movieId;
 
     public static MovieDetailsFragment newInstance() {
         return new MovieDetailsFragment();
@@ -93,7 +94,7 @@ public class MovieDetailsFragment extends BaseFragment<MovieDetailsViewModel, Mo
         super.onActivityCreated(savedInstanceState);
         mViewModel = ViewModelProviders.of(this,viewModelProviderFactory).get(MovieDetailsViewModel.class);
 
-        int movieId = MovieDetailsFragmentArgs.fromBundle(getArguments()).getMovieId();
+        movieId = MovieDetailsFragmentArgs.fromBundle(getArguments()).getMovieId();
 
         mViewModel.getMovieDetails(movieId).observe(this, new Observer<Resource<Movie>>() {
             @Override
@@ -217,8 +218,10 @@ public class MovieDetailsFragment extends BaseFragment<MovieDetailsViewModel, Mo
 
         reviewAdapter.setReviewItemClick(new ReviewAdapter.ReviewItemClick() {
             @Override
-            public void onReviewClicked(String youtubeURL) {
+            public void onReviewClicked(String reviewId) {
                 Timber.d("go to review details ");
+
+                navController.navigate(MovieDetailsFragmentDirections.actionMovieDetailsFragmentToReviewDetailsFragment(movieId,reviewId));
             }
         });
 

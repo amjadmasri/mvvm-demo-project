@@ -40,4 +40,9 @@ public class AppReviewDBHelper implements ReviewDBHelper {
     public DataSource.Factory<Integer, ReviewLocal> getPagedMovieReviews(int movieId) {
         return appDataBase.getReviewDao().loadPagedReviews(movieId);
     }
+
+    @Override
+    public LiveData<ReviewLocal> getReviewById(String reviewId) {
+        return appDataBase.getReviewDao().getReviewById(reviewId);
+    }
 }

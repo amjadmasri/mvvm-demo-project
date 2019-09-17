@@ -6,6 +6,7 @@ import com.classic.mvvmapplication.di.interfaces.ViewModelKey;
 import com.classic.mvvmapplication.viewModels.LoginViewModel;
 import com.classic.mvvmapplication.viewModels.MovieDetailsViewModel;
 import com.classic.mvvmapplication.viewModels.MovieViewModel;
+import com.classic.mvvmapplication.viewModels.ReviewDetailsViewModel;
 import com.classic.mvvmapplication.viewModels.UserViewModel;
 
 import dagger.Binds;
@@ -34,4 +35,9 @@ public abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(MovieDetailsViewModel.class)
     abstract ViewModel bindMovieDetailsViewModel(MovieDetailsViewModel movieDetailsViewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(ReviewDetailsViewModel.class)
+    abstract ViewModel bindReviewDetailsViewModel(ReviewDetailsViewModel reviewDetailsViewModel);
 }

@@ -123,4 +123,9 @@ public class AppReviewRepository implements ReviewRepository {
     public LiveData<Resource<PagedList<ReviewLocal>>> getPagedRemoteMovieReviewList(int movieId, int page) {
         return null;
     }
+
+    @Override
+    public LiveData<ReviewLocal> getReviewById(String reviewId) {
+        return reviewDBHelper.getReviewById(reviewId);
+    }
 }

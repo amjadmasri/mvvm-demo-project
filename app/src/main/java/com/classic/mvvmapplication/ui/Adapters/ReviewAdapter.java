@@ -53,7 +53,7 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
     }
 
     public interface ReviewItemClick{
-        void onReviewClicked(String youtubeURL);
+        void onReviewClicked(String reviewId);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements ReviewItemBindingModel.ReviewItemListener {

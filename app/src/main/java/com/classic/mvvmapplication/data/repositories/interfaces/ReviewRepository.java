@@ -20,4 +20,6 @@ public interface ReviewRepository {
     LiveData<Resource<List<ReviewLocal>>> getTwoReviewsByMovieId(int movieId);
 
     LiveData<Resource<PagedList<ReviewLocal>>> getPagedRemoteMovieReviewList(int movieId,int page);
+
+    LiveData<ReviewLocal> getReviewById(String reviewId);
 }
