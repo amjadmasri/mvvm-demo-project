@@ -10,20 +10,18 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.classic.mvvmapplication.BR;
 import com.classic.mvvmapplication.R;
 import com.classic.mvvmapplication.data.models.local.Genre;
 import com.classic.mvvmapplication.data.models.local.Movie;
+import com.classic.mvvmapplication.data.models.local.ReviewLocal;
 import com.classic.mvvmapplication.data.models.local.VideoLocal;
 import com.classic.mvvmapplication.databinding.MovieDetailsFragmentBinding;
+import com.classic.mvvmapplication.ui.Adapters.ReviewAdapter;
 import com.classic.mvvmapplication.ui.Adapters.VideoAdapter;
 import com.classic.mvvmapplication.ui.BaseFragment;
 import com.classic.mvvmapplication.ui.bindingModels.MovieDetailsBindingModel;
@@ -31,16 +29,17 @@ import com.classic.mvvmapplication.utilities.AppConstants;
 import com.classic.mvvmapplication.utilities.Resource;
 import com.classic.mvvmapplication.utilities.ViewModelProviderFactory;
 import com.classic.mvvmapplication.viewModels.MovieDetailsViewModel;
-import com.classic.mvvmapplication.viewModels.MovieViewModel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.inject.Provider;
 
 import co.lujun.androidtagview.TagView;
+import timber.log.Timber;
 
 public class MovieDetailsFragment extends BaseFragment<MovieDetailsViewModel, MovieDetailsFragmentBinding> {
 
@@ -50,7 +49,14 @@ public class MovieDetailsFragment extends BaseFragment<MovieDetailsViewModel, Mo
     @Inject
     VideoAdapter videoAdapter;
     @Inject
+    ReviewAdapter reviewAdapter;
+    @Inject
     Provider<LinearLayoutManager> linearLayoutManagerProvider;
+
+    @Inject
+    @Named("review")
+    Provider<LinearLayoutManager> reviewLinearLayoutManager;
+
     private HashMap<String, Integer> genreMap;
 
     public static MovieDetailsFragment newInstance() {
@@ -84,7 +90,7 @@ public class MovieDetailsFragment extends BaseFragment<MovieDetailsViewModel, Mo
 
         int movieId = MovieDetailsFragmentArgs.fromBundle(getArguments()).getMovieId();
 
-        mViewModel.getMovieDetails(movieId).observe(requireActivity(), new Observer<Resource<Movie>>() {
+        mViewModel.getMovieDetails(movieId).observe(this, new Observer<Resource<Movie>>() {
             @Override
             public void onChanged(Resource<Movie> movieResource) {
                 if(movieResource.status.equals(Resource.Status.SUCCESS)){
@@ -107,11 +113,28 @@ public class MovieDetailsFragment extends BaseFragment<MovieDetailsViewModel, Mo
             }
         });
 
-        mViewModel.getMovieVideo(movieId).observe(requireActivity(), new Observer<Resource<List<VideoLocal>>>() {
+        mViewModel.getMovieVideo(movieId).observe(this, new Observer<Resource<List<VideoLocal>>>() {
             @Override
             public void onChanged(Resource<List<VideoLocal>> listResource) {
                 if(listResource.status.equals(Resource.Status.SUCCESS)){
                    videoAdapter.setData(listResource.data);
+                   if(listResource.data.size()>0){
+                       dataBinding.detailHeader.videosLabel.setVisibility(View.VISIBLE);
+                   }
+                }
+            }
+        });
+
+        mViewModel.getTwoMovieReview(movieId).observe(this, new Observer<Resource<List<ReviewLocal>>>() {
+            @Override
+            public void onChanged(Resource<List<ReviewLocal>> listResource) {
+                if (listResource.status.equals(Resource.Status.SUCCESS)) {
+                    ArrayList<ReviewLocal> reviewLocalArrayList = new ArrayList<>(listResource.data);
+                    reviewAdapter.setData(reviewLocalArrayList);
+                    if(reviewLocalArrayList.size()>0) {
+                        dataBinding.allReviewsTitle.setVisibility(View.VISIBLE);
+                        dataBinding.reviewsTitle.setVisibility(View.VISIBLE);
+                    }
                 }
             }
         });
@@ -158,11 +181,21 @@ public class MovieDetailsFragment extends BaseFragment<MovieDetailsViewModel, Mo
         dataBinding.detailHeader.videoRecycler.setLayoutManager(linearLayoutManagerProvider.get());
         dataBinding.detailHeader.videoRecycler.setAdapter(videoAdapter);
 
+        dataBinding.topReviewRecycler.setLayoutManager(reviewLinearLayoutManager.get());
+        dataBinding.topReviewRecycler.setAdapter(reviewAdapter);
+
         videoAdapter.setVideoItemClick(new VideoAdapter.VideoItemClick() {
             @Override
             public void onVideoClicked(String youtubeURL) {
                 Intent playVideoIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(AppConstants.YOUTUBE_VIDEO_URL+youtubeURL));
                 startActivity(playVideoIntent);
+            }
+        });
+
+        reviewAdapter.setReviewItemClick(new ReviewAdapter.ReviewItemClick() {
+            @Override
+            public void onReviewClicked(String youtubeURL) {
+                Timber.d("go to review details ");
             }
         });
     }

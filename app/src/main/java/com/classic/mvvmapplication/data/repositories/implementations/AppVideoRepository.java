@@ -14,7 +14,7 @@ import com.classic.mvvmapplication.data.repositories.interfaces.VideoRepository;
 import com.classic.mvvmapplication.utilities.ApiErrorMessagesProvider;
 import com.classic.mvvmapplication.utilities.NetworkBoundResource;
 import com.classic.mvvmapplication.utilities.Resource;
-import com.classic.mvvmapplication.utilities.VideoModelMapper;
+import com.classic.mvvmapplication.utilities.modelsMappers.VideoModelMapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -85,7 +85,7 @@ public class AppVideoRepository implements VideoRepository {
                         if(data!=null)
                             return data.isEmpty();
                         else
-                            return false;
+                            return true;
                     }
                 }).getAsLiveData();
     }

@@ -8,15 +8,20 @@ import androidx.room.Room;
 
 import com.classic.mvvmapplication.AppDataRepository;
 import com.classic.mvvmapplication.data.ApiService;
+import com.classic.mvvmapplication.data.api.AppReviewApiHelper;
 import com.classic.mvvmapplication.data.api.AppUserApiHelper;
 import com.classic.mvvmapplication.data.api.AppVideoApiHelper;
+import com.classic.mvvmapplication.data.api.ReviewApiHelper;
 import com.classic.mvvmapplication.data.api.UserApiHelper;
 import com.classic.mvvmapplication.data.api.VideoApiHelper;
+import com.classic.mvvmapplication.data.local.AppReviewDBHelper;
 import com.classic.mvvmapplication.data.local.AppUserDbHelper;
 import com.classic.mvvmapplication.data.local.AppVideoDBHelper;
+import com.classic.mvvmapplication.data.local.ReviewDBHelper;
 import com.classic.mvvmapplication.data.local.UserDbHelper;
 import com.classic.mvvmapplication.data.local.VideoDBHelper;
 import com.classic.mvvmapplication.data.repositories.implementations.AppMovieRepository;
+import com.classic.mvvmapplication.data.repositories.implementations.AppReviewRepository;
 import com.classic.mvvmapplication.data.repositories.implementations.AppUserRepository;
 import com.classic.mvvmapplication.data.repositories.implementations.AppVideoRepository;
 import com.classic.mvvmapplication.data.repositories.interfaces.DataRepository;
@@ -28,6 +33,7 @@ import com.classic.mvvmapplication.data.local.AppMovieDbHelper;
 import com.classic.mvvmapplication.data.local.MovieDbHelper;
 import com.classic.mvvmapplication.data.prefs.AppPreferencesHelper;
 import com.classic.mvvmapplication.data.prefs.PreferencesHelper;
+import com.classic.mvvmapplication.data.repositories.interfaces.ReviewRepository;
 import com.classic.mvvmapplication.data.repositories.interfaces.UserRepository;
 import com.classic.mvvmapplication.data.repositories.interfaces.VideoRepository;
 import com.classic.mvvmapplication.di.interfaces.ApiKeyInfo;
@@ -238,5 +244,21 @@ public class AppModule {
     VideoApiHelper ProvideVideoApiHelper(AppVideoApiHelper appVideoApiHelper){
         return appVideoApiHelper;
     }
+
+    @Provides
+    ReviewApiHelper ProvideReviewApiHelper(AppReviewApiHelper reviewApiHelper){
+        return reviewApiHelper;
+    }
+
+    @Provides
+    ReviewDBHelper ProvideReviewDBHelper(AppReviewDBHelper reviewDBHelper){
+        return reviewDBHelper;
+    }
+
+    @Provides
+    ReviewRepository provideReviewRepository(AppReviewRepository appReviewRepository){
+        return appReviewRepository;
+    }
+
 
 }

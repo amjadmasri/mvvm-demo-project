@@ -1,4 +1,4 @@
-package com.classic.mvvmapplication.utilities;
+package com.classic.mvvmapplication.utilities.modelsMappers;
 
 import com.classic.mvvmapplication.data.models.api.VideoRemote;
 import com.classic.mvvmapplication.data.models.local.VideoLocal;

@@ -4,6 +4,7 @@ import com.classic.mvvmapplication.data.models.api.CreateGuestSessionResponse;
 import com.classic.mvvmapplication.data.models.api.CreateUserSessionResponse;
 import com.classic.mvvmapplication.data.models.api.LoginResponse;
 import com.classic.mvvmapplication.data.models.api.MoviesListResponse;
+import com.classic.mvvmapplication.data.models.api.ReviewListResponse;
 import com.classic.mvvmapplication.data.models.api.VideoResponse;
 import com.classic.mvvmapplication.data.models.local.Movie;
 
@@ -47,5 +48,9 @@ public interface ApiService {
 
     @GET("movie/{movie_id}")
     Single<Response<Movie>> getMovieDetails(@Path("movie_id") int movieId);
+
+
+    @GET("movie/{movie_id}/reviews")
+    Single<Response<ReviewListResponse>> getMovieReviews(@Path("movie_id")int movieId,@Query("page") int page);
 
 }
