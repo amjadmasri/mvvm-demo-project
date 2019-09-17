@@ -1,4 +1,4 @@
-package com.classic.mvvmapplication.utilities;
+package com.classic.mvvmapplication.utilities.diffCallbacks;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;

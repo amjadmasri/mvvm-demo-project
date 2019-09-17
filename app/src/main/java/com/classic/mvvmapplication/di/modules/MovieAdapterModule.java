@@ -11,8 +11,9 @@ import com.classic.mvvmapplication.ui.Adapters.MovieAdapter;
 import com.classic.mvvmapplication.ui.Adapters.MoviePagedAdapter;
 import com.classic.mvvmapplication.ui.fragments.PopularMoviesFragment;
 import com.classic.mvvmapplication.ui.main.MainActivity;
-import com.classic.mvvmapplication.utilities.MovieDiffCallBacks;
+import com.classic.mvvmapplication.utilities.diffCallbacks.MovieDiffCallBacks;
 import com.classic.mvvmapplication.utilities.RecyclerViewItemDecorator;
+import com.classic.mvvmapplication.utilities.diffCallbacks.ReviewDiffCallBacks;
 
 import java.util.ArrayList;
 
@@ -55,4 +56,6 @@ public class MovieAdapterModule {
     RecyclerViewItemDecorator provideRecyclerViewItemDecorator(){
         return new RecyclerViewItemDecorator(5);
     }
+
+
 }

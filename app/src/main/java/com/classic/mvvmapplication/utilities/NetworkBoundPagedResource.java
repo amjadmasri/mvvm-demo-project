@@ -58,6 +58,7 @@ public abstract class NetworkBoundPagedResource<ResultType, RequestType> {
                     @Override
                     public void onItemAtEndLoaded(@NonNull ResultType itemAtEnd) {
                         super.onItemAtEndLoaded(itemAtEnd);
+                        Timber.d("on last item loaded");
                         pageNumber++;
                         fetchFromNetwork(pageNumber);
                     }

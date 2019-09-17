@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.paging.DataSource;
 import androidx.paging.PagedList;
 
 import com.classic.mvvmapplication.data.api.ReviewApiHelper;
@@ -13,6 +14,7 @@ import com.classic.mvvmapplication.data.models.api.ReviewRemote;
 import com.classic.mvvmapplication.data.models.local.ReviewLocal;
 import com.classic.mvvmapplication.data.repositories.interfaces.ReviewRepository;
 import com.classic.mvvmapplication.utilities.ApiErrorMessagesProvider;
+import com.classic.mvvmapplication.utilities.NetworkBoundPagedResource;
 import com.classic.mvvmapplication.utilities.NetworkBoundResource;
 import com.classic.mvvmapplication.utilities.Resource;
 import com.classic.mvvmapplication.utilities.modelsMappers.ReviewModelMapper;
@@ -120,8 +122,46 @@ public class AppReviewRepository implements ReviewRepository {
     }
 
     @Override
-    public LiveData<Resource<PagedList<ReviewLocal>>> getPagedRemoteMovieReviewList(int movieId, int page) {
-        return null;
+    public LiveData<Resource<PagedList<ReviewLocal>>> getPagedRemoteMovieReviewList(final int movieId, final int page) {
+        return (new NetworkBoundPagedResource<ReviewLocal, ReviewListResponse>(apiErrorMessagesProvider) {
+            @Override
+            protected PagedList.Config getPagedListConfiguration() {
+                return new PagedList.Config.Builder()
+                        .setPageSize(20)
+                        .setPrefetchDistance(20)
+                        .setEnablePlaceholders(true)
+                        .build();
+            }
+
+            @Override
+            protected void saveCallResult(@NonNull ReviewListResponse item) {
+                List<ReviewLocal> reviewLocals= new ArrayList<>();
+                for (ReviewRemote reviewRemote:item.getResults()) {
+                    ReviewLocal reviewLocal = ReviewModelMapper.mapRemoteVideoToLocal(reviewRemote,"movie",item.getId());
+                    reviewLocals.add(reviewLocal);
+                }
+                reviewDBHelper.insertReviewList(reviewLocals);
+            }
+
+            @NonNull
+            @Override
+            protected DataSource.Factory<Integer, ReviewLocal> loadFromDb() {
+                return reviewDBHelper.getPagedMovieReviews(movieId);
+            }
+
+            @NonNull
+            @Override
+            protected Single<Response<ReviewListResponse>> createCall(int pageNumber) {
+                return reviewApiHelper.getMovieReviews(movieId, page);
+            }
+
+            @Override
+            protected boolean shouldFetch(@Nullable PagedList<ReviewLocal> data) {
+                return super.shouldFetch(data);
+            }
+
+
+        }).getAsLiveData();
     }
 
     @Override

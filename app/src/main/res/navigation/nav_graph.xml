@@ -63,6 +63,9 @@
         <action
             android:id="@+id/action_movieDetailsFragment_to_reviewDetailsFragment"
             app:destination="@id/reviewDetailsFragment" />
+        <action
+            android:id="@+id/action_movieDetailsFragment_to_reviewListFragment"
+            app:destination="@id/reviewListFragment" />
     </fragment>
     <fragment
         android:id="@+id/reviewDetailsFragment"
@@ -75,5 +78,16 @@
         <argument
             android:name="review_id"
             app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/reviewListFragment"
+        android:name="com.classic.mvvmapplication.ui.fragments.ReviewListFragment"
+        android:label="ReviewListFragment" >
+        <argument
+            android:name="movie_id"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_reviewListFragment_to_reviewDetailsFragment"
+            app:destination="@id/reviewDetailsFragment" />
     </fragment>
 </navigation>

@@ -45,6 +45,7 @@ import com.classic.mvvmapplication.utilities.QueryParametersInterceptor;
 import com.classic.mvvmapplication.utilities.AppConstants;
 import com.classic.mvvmapplication.utilities.BooleanDeserializer;
 import com.classic.mvvmapplication.utilities.DateDeserializer;
+import com.classic.mvvmapplication.utilities.diffCallbacks.ReviewDiffCallBacks;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -260,5 +261,9 @@ public class AppModule {
         return appReviewRepository;
     }
 
+    @Provides
+    ReviewDiffCallBacks provideReviewDiffCallBacks() {
+        return new ReviewDiffCallBacks();
+    }
 
 }

@@ -225,6 +225,13 @@ public class MovieDetailsFragment extends BaseFragment<MovieDetailsViewModel, Mo
             }
         });
 
+        dataBinding.allReviewsTitle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                navController.navigate(MovieDetailsFragmentDirections.actionMovieDetailsFragmentToReviewListFragment(movieId));
+            }
+        });
+
         similarMovieAdapter.setListener(new MovieAdapter.MovieAdapterListener() {
             @Override
             public void onMovieClick(int MovieId) {
