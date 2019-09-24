@@ -1,14 +1,19 @@
 package com.classic.mvvmapplication.ui.main;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
+import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
+import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toolbar;
 
 import com.classic.mvvmapplication.BR;
 import com.classic.mvvmapplication.ui.fragments.LoginFragment;
@@ -51,6 +56,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MovieViewMod
     private MovieViewModel movieViewModel;
     private ActivityMainBinding activityMainBinding;
     private NavController navController;
+    private AppBarConfiguration appBarConfiguration;
 
     @Override
     public int getBindingVariable() {
@@ -84,6 +90,9 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MovieViewMod
 
 
         NavigationUI.setupWithNavController(activityMainBinding.bottomNavigationView, navController);
+
+        appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
+        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
 
     }
 

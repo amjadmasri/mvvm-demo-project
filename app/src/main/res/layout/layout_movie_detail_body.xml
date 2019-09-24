@@ -13,7 +13,42 @@
         android:id="@+id/details_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/gray">
+        android:background="@android:color/transparent">
+
+        <LinearLayout
+            android:id="@+id/actions_layout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/detail_header_star">
+
+            <ImageView
+                android:id="@+id/movie_rate_image"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginTop="8dp"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/ic_rate_review_black_24dp" />
+
+            <ImageView
+                android:id="@+id/movie_favorite_image"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginTop="8dp"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/ic_favorite_border_black_24dp" />
+
+            <ImageView
+                android:id="@+id/movie_watch_later_image"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginTop="8dp"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/ic_watch_later_black_24dp" />
+        </LinearLayout>
 
         <RatingBar
             android:id="@+id/detail_header_star"
@@ -54,7 +89,7 @@
             android:textSize="24sp"
             app:layout_constraintEnd_toStartOf="@+id/guideline4"
             app:layout_constraintStart_toStartOf="@+id/guideline4"
-            app:layout_constraintTop_toBottomOf="@+id/detail_header_star" />
+            app:layout_constraintTop_toBottomOf="@+id/actions_layout" />
 
         <TextView
             android:id="@+id/textView4"
@@ -77,7 +112,7 @@
             android:textSize="24sp"
             app:layout_constraintEnd_toStartOf="@+id/guideline5"
             app:layout_constraintStart_toStartOf="@+id/guideline5"
-            app:layout_constraintTop_toBottomOf="@+id/detail_header_star" />
+            app:layout_constraintTop_toBottomOf="@+id/actions_layout" />
 
         <TextView
             android:id="@+id/textView6"
@@ -178,6 +213,31 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/first_review_body" />
 
+        <TextView
+            android:id="@+id/videos_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Videos"
+            android:textColor="@color/white"
+            android:textSize="24sp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tagContainerLayout" />
+
+        <TextView
+            android:id="@+id/genres_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Genres"
+            android:textColor="@color/white"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toStartOf="@+id/guideline5"
+            app:layout_constraintStart_toStartOf="@+id/guideline4"
+            app:layout_constraintTop_toBottomOf="@+id/textView14" />
+
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline4"
             android:layout_width="wrap_content"
@@ -192,18 +252,12 @@
             android:orientation="vertical"
             app:layout_constraintGuide_percent="0.75" />
 
-        <TextView
-            android:id="@+id/videos_label"
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline7"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Videos"
-            android:textColor="@color/white"
-            android:textSize="24sp"
-            android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tagContainerLayout" />
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/video_recycler"
@@ -217,18 +271,6 @@
             tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/video_list_item" />
 
-        <TextView
-            android:id="@+id/genres_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Genres"
-            android:textColor="@color/white"
-            android:textSize="24sp"
-            app:layout_constraintEnd_toStartOf="@+id/guideline5"
-            app:layout_constraintStart_toStartOf="@+id/guideline4"
-            app:layout_constraintTop_toBottomOf="@+id/textView14" />
-
         <co.lujun.androidtagview.TagContainerLayout
             android:id="@+id/tagContainerLayout"
             android:layout_width="0dp"
@@ -236,18 +278,18 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
+            app:container_background_color="@color/transparent"
+            app:container_border_color="@color/transparent"
             app:container_enable_drag="false"
             app:horizontal_interval="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/genres_label"
-            app:tag_clickable="true"
-            app:tag_theme="none"
-            app:tag_text_color="@color/white"
             app:tag_background_color="@color/colorPrimary"
             app:tag_border_color="@color/transparent"
-            app:container_background_color="@color/transparent"
-            app:container_border_color="@color/transparent"
+            app:tag_clickable="true"
+            app:tag_text_color="@color/white"
+            app:tag_theme="none"
             app:vertical_interval="10dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

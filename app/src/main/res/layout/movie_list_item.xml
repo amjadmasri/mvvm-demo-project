@@ -44,10 +44,10 @@
                 android:id="@+id/item_poster_title"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="@drawable/gradient_bg"
                 android:gravity="center"
                 android:padding="3dp"
                 android:textColor="@color/white"
-                android:background="@color/gray"
                 android:textSize="14sp"
                 android:textStyle="bold"
                 tools:text="@{moviePosterItemBindingModel.movieOriginalName}" />

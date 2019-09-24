@@ -3,6 +3,7 @@ package com.classic.mvvmapplication.data.api;
 import androidx.lifecycle.LiveData;
 
 import com.classic.mvvmapplication.data.ApiService;
+import com.classic.mvvmapplication.data.models.api.GenericPostRequestResponse;
 import com.classic.mvvmapplication.data.models.api.MoviesListResponse;
 import com.classic.mvvmapplication.data.models.local.Movie;
 
@@ -35,5 +36,15 @@ public class AppMovieApiHelper implements MovieApiHelper{
     @Override
     public Single<Response<MoviesListResponse>> getSimilarMoviesById(int movieId) {
         return apiService.getSimilarMoviesById(movieId);
+    }
+
+    @Override
+    public Single<Response<GenericPostRequestResponse>> rateMovie(int movieId, float rating, String sessionId,boolean isGuest) {
+        if (isGuest) {
+            return apiService.rateMovie(movieId,rating,null,sessionId);
+        } else {
+            return apiService.rateMovie(movieId,rating,sessionId,null);
+        }
+
     }
 }

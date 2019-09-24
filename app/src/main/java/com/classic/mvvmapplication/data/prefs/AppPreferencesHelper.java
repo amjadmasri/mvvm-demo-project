@@ -15,6 +15,7 @@ public class AppPreferencesHelper implements PreferencesHelper {
     private static final String PREF_KEY_DATA_LANGUAGE = "PREF_KEY_DATA_LANGUAGE";
     private static final String PREF_KEY_SESSION_KEY = "PREF_KEY_SESSION_KEY";
     private static final String PREF_KEY_IS_DATA_DIRTY ="PREF_KEY_IS_DATA_DIRTY";
+    private static final String PREF_KEY_IS_GUEST="PREF_KEY_IS_GUEST";
 
 
     private final SharedPreferences mPrefs;
@@ -53,5 +54,15 @@ public class AppPreferencesHelper implements PreferencesHelper {
     @Override
     public void setIsDirty(boolean isDirty) {
         mPrefs.edit().putBoolean(PREF_KEY_IS_DATA_DIRTY,isDirty).apply();
+    }
+
+    @Override
+    public void setIsGuest(boolean isGuest) {
+        mPrefs.edit().putBoolean(PREF_KEY_IS_GUEST,isGuest);
+    }
+
+    @Override
+    public boolean isGuest() {
+        return mPrefs.getBoolean(PREF_KEY_IS_GUEST,false);
     }
 }

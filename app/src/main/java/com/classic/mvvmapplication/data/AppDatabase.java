@@ -14,7 +14,7 @@ import com.classic.mvvmapplication.data.models.local.User;
 import com.classic.mvvmapplication.data.models.local.VideoLocal;
 import com.classic.mvvmapplication.utilities.GenreConverter;
 
-@Database(entities = {Movie.class, User.class, VideoLocal.class, ReviewLocal.class}, version = 6)
+@Database(entities = {Movie.class, User.class, VideoLocal.class, ReviewLocal.class}, version = 7)
 @TypeConverters(value = {GenreConverter.class})
 public abstract class AppDatabase extends RoomDatabase {
 

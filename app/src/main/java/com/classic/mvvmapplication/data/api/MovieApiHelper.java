@@ -2,6 +2,7 @@ package com.classic.mvvmapplication.data.api;
 
 import androidx.lifecycle.LiveData;
 
+import com.classic.mvvmapplication.data.models.api.GenericPostRequestResponse;
 import com.classic.mvvmapplication.data.models.api.MoviesListResponse;
 import com.classic.mvvmapplication.data.models.local.Movie;
 
@@ -17,5 +18,7 @@ public interface MovieApiHelper {
     Single<Response<Movie>> getMovieDetails(int movieId);
 
     Single<Response<MoviesListResponse>> getSimilarMoviesById(int movieId);
+
+    Single<Response<GenericPostRequestResponse>> rateMovie(int movieId,float rating,String sessionId,boolean isGuest);
 
 }

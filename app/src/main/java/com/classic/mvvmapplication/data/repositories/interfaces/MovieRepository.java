@@ -21,4 +21,6 @@ public interface MovieRepository extends DataRepository {
     LiveData<Resource<Movie>> insertMovie(Movie movie);
 
     LiveData<Resource<Movie>> insertMovieList(List<Movie> movieList);
+
+    LiveData<Resource<String>> rateMovie(Movie movie,float rating);
 }

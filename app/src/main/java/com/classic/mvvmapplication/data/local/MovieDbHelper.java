@@ -23,4 +23,5 @@ public interface MovieDbHelper {
     Completable insertMovieList(List<Movie> movieList);
 
     DataSource.Factory<Integer, Movie> getPagedPopularMovies();
+
 }

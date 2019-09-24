@@ -2,6 +2,7 @@ package com.classic.mvvmapplication.data;
 
 import com.classic.mvvmapplication.data.models.api.CreateGuestSessionResponse;
 import com.classic.mvvmapplication.data.models.api.CreateUserSessionResponse;
+import com.classic.mvvmapplication.data.models.api.GenericPostRequestResponse;
 import com.classic.mvvmapplication.data.models.api.LoginResponse;
 import com.classic.mvvmapplication.data.models.api.MoviesListResponse;
 import com.classic.mvvmapplication.data.models.api.ReviewListResponse;
@@ -55,4 +56,8 @@ public interface ApiService {
 
     @GET("movie/{movie_id}/similar")
     Single<Response<MoviesListResponse>> getSimilarMoviesById(@Path("movie_id") int movieId);
+
+    @FormUrlEncoded
+    @POST("movie/{movie_id}/rating")
+    Single<Response<GenericPostRequestResponse>> rateMovie(@Path("movie_id")int movieId,@Field("value") float rating, @Query("session_id") String sessionId, @Query("guest_session_id") String guestSessionId);
 }

@@ -28,6 +28,7 @@
         tools:targetApi="LOLLIPOP">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/collapsing_toolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/background"
@@ -58,11 +59,12 @@
             android:fillViewport="false">
 
             <LinearLayout
+                android:id="@+id/linear_layout"
                 android:descendantFocusability="blocksDescendants"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="10dp"
                 android:orientation="vertical"
+                android:background="@drawable/bg_design"
                 android:padding="15dp">
 
                 <include

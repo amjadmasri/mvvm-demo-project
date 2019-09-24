@@ -171,7 +171,7 @@ public class AppUserRepository implements UserRepository {
                     if(createUserSessionResponseResponse.isSuccessful()){
                         CreateUserSessionResponse createUserSessionResponse = createUserSessionResponseResponse.body();
                         if(createUserSessionResponse.getSuccess()) {
-                            saveSessionToken(createUserSessionResponse.getSessionId());
+                            saveSessionToken(createUserSessionResponse.getSessionId(),false);
                             saveLocalUser(createUserSessionResponse.getSessionId(),null,false);
                             result.setValue(Resource.<String>success("created Session Successfully"));
                         }
@@ -204,7 +204,7 @@ public class AppUserRepository implements UserRepository {
                         if(createGuestSessionResponseResponse.isSuccessful()){
                             CreateGuestSessionResponse createGuestSessionResponse = createGuestSessionResponseResponse.body();
                             if(createGuestSessionResponse.getSuccess()) {
-                                saveSessionToken(createGuestSessionResponse.getGuestSessionId());
+                                saveSessionToken(createGuestSessionResponse.getGuestSessionId(),true);
                                 saveLocalUser(createGuestSessionResponse.getGuestSessionId(),createGuestSessionResponse.getExpiresAt(),true);
                                 result.setValue(Resource.<String>success("created Guest Session Successfully"));
                             }
@@ -220,8 +220,10 @@ public class AppUserRepository implements UserRepository {
     }
 
     @Override
-    public void saveSessionToken(String userSession){
+    public void saveSessionToken(String userSession,boolean isGuest){
         mPreferencesHelper.setSessionKey(userSession);
+        mPreferencesHelper.setIsGuest(isGuest);
+
     }
 
     private void saveLocalUser(String guestSessionId, String expiresAt,boolean isGuest) {

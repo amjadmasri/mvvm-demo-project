@@ -7,6 +7,7 @@ import com.classic.mvvmapplication.di.modules.VideoAdapterModule;
 import com.classic.mvvmapplication.ui.Adapters.MovieAdapter;
 import com.classic.mvvmapplication.ui.Adapters.ReviewAdapter;
 import com.classic.mvvmapplication.ui.Adapters.VideoAdapter;
+import com.classic.mvvmapplication.ui.fragments.AddRatingFragment;
 import com.classic.mvvmapplication.ui.fragments.LoginFragment;
 import com.classic.mvvmapplication.ui.fragments.MovieDetailsFragment;
 import com.classic.mvvmapplication.ui.fragments.PopularMoviesFragment;
@@ -41,5 +42,8 @@ public abstract class FragmentBuilderModule {
 
     @ContributesAndroidInjector(modules = ReviewAdapterModule.class)
     abstract ReviewListFragment contributeReviewListFragment();
+
+    @ContributesAndroidInjector
+    abstract AddRatingFragment contributeAddRatingFragment();
 
 }

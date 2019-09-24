@@ -35,9 +35,12 @@ public class QueryParametersInterceptor implements Interceptor {
                 .build();
 
         Request.Builder requestBuilder = original.newBuilder()
+                .addHeader("Content-Type", "application/json")
                 .url(url);
+
 
         Request request = requestBuilder.build();
         return chain.proceed(request);
     }
+
 }

@@ -5,12 +5,15 @@ import android.content.Context;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 import androidx.paging.DataSource;
 import androidx.paging.PagedList;
 
 import com.classic.mvvmapplication.data.api.MovieApiHelper;
 import com.classic.mvvmapplication.data.local.MovieDbHelper;
+import com.classic.mvvmapplication.data.models.api.GenericPostRequestResponse;
 import com.classic.mvvmapplication.data.models.api.MoviesListResponse;
 import com.classic.mvvmapplication.data.models.local.Movie;
 import com.classic.mvvmapplication.data.prefs.PreferencesHelper;
@@ -217,6 +220,56 @@ public class AppMovieRepository implements MovieRepository {
                     @Override
                     public void onError(Throwable e) {
                         result.setValue(Resource.<List<Movie>>error(e.getMessage(),null));
+                    }
+                });
+
+        return result;
+    }
+
+    @Override
+    public LiveData<Resource<String>> rateMovie(final Movie movie, final float rating) {
+        final MutableLiveData<Resource<String>> result= new MutableLiveData<>();
+
+        result.setValue(Resource.<String>loading(null));
+
+        movie.setRating(rating);
+        mDbHelper.updateMovie(movie)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new DisposableCompletableObserver() {
+                    @Override
+                    public void onComplete() {
+                        mApiHelper.rateMovie(movie.getId(),rating,mPreferencesHelper.getSessionKey(),mPreferencesHelper.isGuest())
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(new SingleObserver<Response<GenericPostRequestResponse>>() {
+                                    @Override
+                                    public void onSubscribe(Disposable d) {
+
+                                    }
+
+                                    @Override
+                                    public void onSuccess(Response<GenericPostRequestResponse> genericPostRequestResponseResponse) {
+                                        if(genericPostRequestResponseResponse.isSuccessful()){
+                                            result.setValue(Resource.<String>success("success"));
+                                        }
+                                        else{
+                                            result.setValue(Resource.<String>error("error",null));
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onError(Throwable e) {
+                                        Timber.d(e.getMessage());
+                                        result.setValue(Resource.<String>error(e.getMessage(),null));
+                                    }
+                                });
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        result.setValue(Resource.<String>error("error",null));
                     }
                 });
 

@@ -5,7 +5,11 @@ import androidx.lifecycle.ViewModelProviders;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -15,6 +19,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import android.view.View;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.classic.mvvmapplication.R;
 import com.classic.mvvmapplication.data.models.local.Genre;
 import com.classic.mvvmapplication.data.models.local.Movie;
@@ -40,7 +48,10 @@ import javax.inject.Named;
 import javax.inject.Provider;
 
 import co.lujun.androidtagview.TagView;
+import jp.wasabeef.glide.transformations.BlurTransformation;
 import timber.log.Timber;
+
+import static com.bumptech.glide.request.RequestOptions.bitmapTransform;
 
 public class MovieDetailsFragment extends BaseFragment<MovieDetailsViewModel, MovieDetailsFragmentBinding> {
 
@@ -104,8 +115,22 @@ public class MovieDetailsFragment extends BaseFragment<MovieDetailsViewModel, Mo
                     dataBinding.setMovieBindingItem(movieDetailsBindingModel);
                     setupGenreLayout(movieResource.data.getGenres());
 
+                    dataBinding.collapsingToolbar.setTitle(movieResource.data.getTitle());
+
                     dataBinding.detailsLoading.setVisibility(View.GONE);
                     dataBinding.detailHeader.detailsLayout.setVisibility(View.VISIBLE);
+
+
+                    Glide.with(getContext()).load(R.drawable.bg_design)
+                            .apply(RequestOptions.bitmapTransform(new BlurTransformation(25, 1)))
+                            .into(new SimpleTarget<Drawable>() {
+                        @Override
+                        public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                                dataBinding.linearLayout.setBackground(resource);
+                            }
+                        }
+                    });
                 }
                 else if (movieResource.status.equals(Resource.Status.LOADING)){
                     dataBinding.detailsLoading.setVisibility(View.VISIBLE);
@@ -238,5 +263,15 @@ public class MovieDetailsFragment extends BaseFragment<MovieDetailsViewModel, Mo
                 navController.navigate(MovieDetailsFragmentDirections.actionMovieDetailsFragmentSelf(MovieId));
             }
         });
+
+        dataBinding.detailHeader.movieRateImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                navController.navigate(MovieDetailsFragmentDirections.actionMovieDetailsFragmentToAddRatingFragment(movieId));
+            }
+        });
+
+        dataBinding.collapsingToolbar.setExpandedTitleColor(getResources().getColor(R.color.transparent));
+        dataBinding.collapsingToolbar.setCollapsedTitleTextColor(getResources().getColor(R.color.white));
     }
 }

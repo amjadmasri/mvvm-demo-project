@@ -103,7 +103,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
 
             if(isHorizontal){
                 ViewGroup.LayoutParams layoutParams = movieListItemBinding.movieLayout.getLayoutParams();
-                layoutParams.width = 435;
+                layoutParams.width = 700;
                 layoutParams.height=WRAP_CONTENT;
                 movieListItemBinding.movieLayout.setLayoutParams(layoutParams);
 

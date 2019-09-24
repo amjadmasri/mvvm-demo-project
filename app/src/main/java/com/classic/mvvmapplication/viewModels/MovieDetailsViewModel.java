@@ -16,6 +16,8 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import timber.log.Timber;
+
 public class MovieDetailsViewModel extends ViewModel {
 
     private LiveData<Resource<List<VideoLocal>>> videoList ;
@@ -62,5 +64,10 @@ public class MovieDetailsViewModel extends ViewModel {
         }
 
         return similarMoviesList;
+    }
+
+    public LiveData<Resource<String>> addMovieRating(int movieId, Float review) {
+        Timber.d("rating "+movieDetails.getValue().data);
+        return appMovieRepository.rateMovie(movieDetails.getValue().data,review);
     }
 }

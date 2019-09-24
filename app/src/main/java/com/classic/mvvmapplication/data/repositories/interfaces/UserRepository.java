@@ -23,7 +23,7 @@ public interface UserRepository extends  DataRepository {
 
     LiveData<Resource<String>> getRequestToken();
 
-    void saveSessionToken(String userSession);
+    void saveSessionToken(String userSession,boolean isGuest);
 
     LiveData<Resource<String>> logOutUser();
 }

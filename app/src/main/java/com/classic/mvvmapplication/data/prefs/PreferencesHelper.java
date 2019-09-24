@@ -8,6 +8,10 @@ public interface PreferencesHelper {
 
     void setSessionKey(String session);
 
+    void setIsGuest(boolean isGuest);
+
+    boolean isGuest();
+
     String getSessionKey();
 
     boolean getIsDataDirty();

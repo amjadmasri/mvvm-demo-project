@@ -80,6 +80,10 @@ public class Movie{
     @Expose
     private String tagline;
 
+    @SerializedName("rating")
+    @Expose
+    private float rating;
+
     private boolean hasDetails;
 
     public Double getPopularity() {
@@ -274,5 +278,13 @@ public class Movie{
     @Override
     public int hashCode() {
         return Objects.hash(getPopularity(), getVoteCount(), getVideo(), getPosterPath(), getId(), getAdult(), getBackdropPath(), getOriginalLanguage(), getOriginalTitle(), getTitle(), getVoteAverage(), getOverview(), getReleaseDate(), getBudget(), getGenres(), getImdbId(), getRevenue(), getStatus(), getTagline(), isHasDetails());
+    }
+
+    public float getRating() {
+        return rating;
+    }
+
+    public void setRating(float rating) {
+        this.rating = rating;
     }
 }
