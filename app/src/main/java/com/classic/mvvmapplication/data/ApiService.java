@@ -60,4 +60,19 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("movie/{movie_id}/rating")
     Single<Response<GenericPostRequestResponse>> rateMovie(@Path("movie_id")int movieId,@Field("value") float rating, @Query("session_id") String sessionId, @Query("guest_session_id") String guestSessionId);
+
+
+    @GET("account/{account_id}/rated/movies")
+    Single<Response<MoviesListResponse>> getUserRatedMovies(@Path("account_id") String userId,@Query("session_id") String sessionId);
+
+    @GET("account/{account_id}/favorite/movies")
+    Single<Response<MoviesListResponse>> getUserFavoriteMovies(@Path("account_id") String userId,@Query("session_id") String sessionId);
+
+    @GET(" account/{account_id}/watchlist/movies")
+    Single<Response<MoviesListResponse>> getUserWatchListMovies(@Path("account_id") String userId,@Query("session_id") String sessionId);
+
+
+    @GET("guest_session/{guest_session_id}/rated/movies")
+    Single<Response<MoviesListResponse>> getGuestRatedMovies(@Path("guest_session_id")String guestSessionId);
+
 }
